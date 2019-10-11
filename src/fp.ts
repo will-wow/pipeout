@@ -1,12 +1,28 @@
-export const xchain = <T, U>(transformer: (t: T) => U) => {
-  const fn = <V>(fa: (u: U) => V) => xchain<T, V>((t: T) => fa(transformer(t)));
-  fn.run = (t: T) => transformer(t);
-  return fn;
+/**
+ * Create a series of transformers to pipe a value through.
+ */
+export const pipe = <T, U>(transformer: (value: T) => U) => {
+  const nextChain = <V>(nextTransformer: (nextValue: U) => V) =>
+    pipe<T, V>((value: T) => nextTransformer(transformer(value)));
+  nextChain.run = (value: T) => transformer(value);
+  return nextChain;
 };
 
-export const pxchain = <T, U>(transformer: (t: T | Promise<T>) => U | Promise<U>) => {
-  const fn = <V>(fa: (u: U | Promise<U>) => V | Promise<V>) =>
-    pxchain((t: T) => Promise.resolve(t).then(t => fa(transformer(t))));
-  fn.run = (t: T) => transformer(t);
-  return fn;
+/**
+ *
+ * Create a series of transformers to pipe a value through, where the value and transformers can be promises.
+ * @param transformer - A function that tranforms the value.
+ * @returns - a function to chain again, with a .run property to run the functions.
+ */
+export const pipeAsync = <T, U>(
+  transformer: (value: T | Promise<T>) => U | Promise<U>
+) => {
+  const nextChain = <V>(
+    nextTransformer: (nextValue: U | Promise<U>) => V | Promise<V>
+  ) =>
+    pipeAsync((value: T) =>
+      Promise.resolve(value).then(value => nextTransformer(transformer(value)))
+    );
+  nextChain.run = (value: T) => transformer(value);
+  return nextChain;
 };
