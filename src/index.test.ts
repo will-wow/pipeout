@@ -1,53 +1,78 @@
-type X = { a: "x" };
-type Y = { a: "y" };
-type Z = { a: "z" };
-type Q = { a: "q" };
+import { pipe, pipeAsync } from "./index";
+import { pipe as cPipe, pipeAsync as cPipeAsync } from "./fp";
 
-const a = (_: X): Y => ({ a: "y" });
-const b = (_: Y): Z => ({ a: "z" });
-const c = (_: X): Q => ({ a: "q" });
+type A = { x: "a" };
+type B = { x: "b" };
+type C = { x: "c" };
+type D = { x: "d" };
 
-const qa = async (_: X): Promise<Y> => ({ a: "y" });
-const qb = async (_: Y): Promise<Z> => ({ a: "z" });
-const qc = async (_: X): Promise<Q> => ({ a: "q" });
+const a: A = { x: "a" };
+const b: B = { x: "b" };
+const c: C = { x: "c" };
+const d: D = { x: "d" };
 
-const chain = <T>(t: T) => {
-  const fn = <U>(fa: (t: T) => U) => chain<U>(fa(t));
-  fn.value = t;
-  return fn;
-};
+const aToB = (_: A): B => b;
+const bToC = (_: B): C => c;
+const cToD = (_: C): D => d;
+// const bToD = (_: B): D => (d);
 
-const pchain = <T>(t: T | Promise<T>) => {
-  const fn = <U>(fa: (t: T) => U | Promise<U>) =>
-    pchain(Promise.resolve(t).then(fa));
-  fn.value = t;
-  return fn;
-};
+const aToBAsync = (_: A): Promise<B> => Promise.resolve(b);
+const bToCAsync = (_: B): Promise<C> => Promise.resolve(c);
+const cToDAsync = (_: C): Promise<D> => Promise.resolve(d);
+// const bToD = (_: B): Promise<D> => Promise.resolve(d);
 
-const xchain = <T, U>(transformer: (t: T) => U) => {
-  const fn = <V>(fa: (u: U) => V) => xchain<T, V>((t: T) => fa(transformer(t)));
-  fn.run = (t: T) => transformer(t);
-  return fn;
-};
+const aAsync = Promise.resolve(a);
 
-const pxchain = <T, U>(transformer: (t: T | Promise<T>) => U | Promise<U>) => {
-  const fn = <V>(fa: (u: U | Promise<U>) => V | Promise<V>) =>
-    pxchain((t: T) => Promise.resolve(t).then(t => fa(transformer(t))));
-  fn.run = (t: T) => transformer(t);
-  return fn;
-};
+describe("pipeout", () => {
+  describe("non-curried functions", () => {
+    describe("pipe", () => {
+      it("returns a value", () => {
+        expect(pipe(a).value).toEqual(a);
+      });
 
-const px = Promise.resolve({ a: "x" });
-const x: X = { a: "x" };
+      it("pipes through multiple transforms", () => {
+        const d: D = pipe(a)(aToB)(bToC)(cToD).value;
+        expect(d).toEqual({ x: "d" });
+      });
+    });
 
-const main = async () => {
-  console.log(await pxchain(a)(b).run(x));
-  console.log(await pxchain(qa)(b).run(x));
-  console.log(await pxchain(a)(qb).run(x));
-  console.log(await pxchain(qa)(qb).run(x));
+    describe("pipeAsync", () => {
+      it("returns a promise", async () => {
+        expect(await pipeAsync(aAsync).value).toEqual(a);
+      });
 
-  console.log(await pchain(x)(a)(b).value);
-  console.log(await pchain(x)(qa)(b).value);
-  console.log(await pchain(x)(a)(qb).value);
-  console.log(await pchain(x)(qa)(qb).value);
-};
+      it("pipes through multiple transforms", async () => {
+        const result: D = await pipeAsync(aAsync)(aToBAsync)(bToCAsync)(
+          cToDAsync
+        ).value;
+        expect(result).toEqual(d);
+      });
+
+      it("pipes a non-promise through transformations", async () => {
+        const result: D = await pipeAsync(a)(aToB)(bToC)(cToD).value;
+        expect(result).toEqual(d);
+      });
+
+      it("pipes a through transformations that may or may not be promises", async () => {
+        const result: D = await pipeAsync(a)(aToB)(bToC)(cToD).value;
+        expect(result).toEqual(d);
+      });
+    });
+  });
+
+  describe("curried functions", () => {
+    describe("pipe", () => {
+      it("pipes through multiple transforms", () => {
+        const transform = cPipe(aToB)(bToC)(cToD).run;
+        expect(transform(a)).toEqual(d);
+      });
+    });
+
+    describe("pipeAsync", () => {
+      it("pipes through multiple transforms", async () => {
+        const transform = cPipeAsync(aToBAsync)(bToCAsync)(cToDAsync).run;
+        expect(await transform(a)).toEqual(d);
+      });
+    });
+  });
+});

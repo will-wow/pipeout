@@ -1,8 +1,10 @@
+import { Unary, AsyncUnary } from "./types";
+
 /**
  * Pipe a value through a series of transformers.
  */
 export const pipe = <T>(value: T) => {
-  const nextChain = <U>(transformer: (t: T) => U) =>
+  const nextChain = <U>(transformer: Unary<T, U>) =>
     pipe<U>(transformer(value));
   nextChain.value = value;
   return nextChain;
@@ -15,7 +17,7 @@ export const pipe = <T>(value: T) => {
  * @returns - a function to chain again, with a .value property to return the promise.
  */
 export const pipeAsync = <T>(value: T | Promise<T>) => {
-  const nextChain = <U>(transformer: (t: T) => U | Promise<U>) =>
+  const nextChain = <U>(transformer: AsyncUnary<T, U>) =>
     pipeAsync(Promise.resolve(value).then(transformer));
   nextChain.value = value;
   return nextChain;
