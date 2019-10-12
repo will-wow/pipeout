@@ -54,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Pipeable function names to be prefixed with `ok` or `error`
-- Better type inference for pipeAsync
+- Better type inference for pipeA
 
 ## [1.1.0]
 

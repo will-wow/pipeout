@@ -16,9 +16,9 @@ export const pipe = <T>(value: T) => {
  * @param transformer - A function that transforms the value.
  * @returns - a function to chain again, with a .value property to return the promise.
  */
-export const pipeAsync = <T>(value: T | Promise<T>) => {
+export const pipeA = <T>(value: T | Promise<T>) => {
   const nextPipe = <U>(transformer: AsyncUnary<T, U>) =>
-    pipeAsync(Promise.resolve(value).then(transformer));
+    pipeA(Promise.resolve(value).then(transformer));
   nextPipe.value = value;
   return nextPipe;
 };
@@ -26,9 +26,9 @@ export const pipeAsync = <T>(value: T | Promise<T>) => {
 /**
  * Create a series of transformers to pipe a value through.
  */
-export const pipeCurried = <T, U>(transformer: Unary<T, U>) => {
+export const piper = <T, U>(transformer: Unary<T, U>) => {
   const nextPipe = <V>(nextTransformer: Unary<U, V>) =>
-    pipeCurried<T, V>((value: T) => nextTransformer(transformer(value)));
+    piper<T, V>((value: T) => nextTransformer(transformer(value)));
   nextPipe.run = (value: T) => transformer(value);
   return nextPipe;
 };
@@ -39,9 +39,9 @@ export const pipeCurried = <T, U>(transformer: Unary<T, U>) => {
  * @param transformer - A function that transforms the value.
  * @returns - a function to chain again, with a .run property to run the functions.
  */
-export const pipeAsyncCurried = <T, U>(transformer: AsyncUnary<T, U>) => {
+export const piperA = <T, U>(transformer: AsyncUnary<T, U>) => {
   const nextPipe = <V>(nextTransformer: AsyncUnary<U, V>) =>
-    pipeAsyncCurried(
+    piperA(
       async (valuePromise: T | Promise<T>): Promise<V> => {
         const value = await valuePromise;
         const next = await transformer(value);
