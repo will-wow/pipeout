@@ -81,9 +81,13 @@ For this example, we'll imagine that getting the user's marbles and getting the 
 ```typescript
 import { pipeA } from "pipeout";
 
-const redCount = await pipeA(user)(fetchMarbles)(filterWithAsyncColor)(
-  getLength
-).value;
+// prettier-ignore
+const redCount = await pipeA
+  (user)
+  (fetchMarbles)
+  (filterWithAsyncColor)
+  (getLength)
+  .value;
 ```
 
 #### `piper`
@@ -94,6 +98,30 @@ import { piperA } from "pipeout";
 const redCounter = piperA(fetchMarbles)(filterWithAsyncColor)(getLength);
 const redCount = await redCounter.run(user);
 ```
+
+## Prettier
+
+[prettier]() is a great formatting tool - but it doesn't play very will with `pipeout`. If you have a short pipeline, then prettier will make it a single line, which works great. But if you have a long pipeline, it's really readable to put each function on its own line, like this:
+
+```javascript
+// prettier-ignore
+const redCount = await pipeA
+  (user)
+  (fetchMarbles)
+  (filterWithAsyncColor)
+  (getLength)
+  .value;
+```
+
+But without a `// prettier-ignore` comment, it formats like this:
+
+```javascript
+const redCount = await pipeA(user)(fetchMarbles)(filterWithAsyncColor)(
+  getLength
+).value;
+```
+
+That's not a readable. At some point a prettier plugin could solve this problem. In the meantime, if you use prettier, adding `// prettier-ignore` above long pipelines is a good idea.
 
 ## Contributing
 

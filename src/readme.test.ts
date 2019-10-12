@@ -60,9 +60,13 @@ describe("readme", () => {
 
   describe("pipeA", () => {
     it("handles the readme example", async () => {
-      const redCount = await pipeA(user)(fetchMarbles)(filterWithAsyncColor)(
-        getLength
-      ).value;
+      // prettier-ignore
+      const redCount = await pipeA
+        (user)
+        (fetchMarbles)
+        (filterWithAsyncColor)
+        (getLength)
+        .value;
 
       expect(redCount).toBe(3);
     });
