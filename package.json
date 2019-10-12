@@ -1,6 +1,6 @@
 {
   "name": "pipeout",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Error handling",
   "main": "dist/pipeout.cjs.js",
   "module": "dist/pipeout.js",
