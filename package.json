@@ -49,7 +49,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "docs": "typedoc && cp -R assets/* docs/assets/ && cp favicon.ico docs",
+    "docs": "typedoc && cp -R assets/* docs/assets/ && cp assets/favicon.ico docs",
     "prepublishOnly": "npm-run-all lint test build",
     "test": "jest",
     "format": "npm-run-all -c format:*",

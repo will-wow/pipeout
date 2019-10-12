@@ -4,6 +4,9 @@
 
 A library for piping values through transformations, in a type-safe way.
 
+[![codecov](https://codecov.io/gh/will-wow/pipeout/branch/master/graph/badge.svg)](https://codecov.io/gh/will-wow/pipeout)
+[![David Dependency Status](https://david-dm.org/will-wow/pipeout.svg)](https://david-dm.org/will-wow/pipeout)
+
 It's like `pipe` from lodash and Ramda, but with partial application for better type safety.
 
 ## Installation
