@@ -4,6 +4,7 @@
 
 A library for piping values through transformations, in a type-safe way.
 
+[![npm package](https://img.shields.io/npm/v/pipeout.svg)](https://www.npmjs.com/package/pipeout)
 [![codecov](https://codecov.io/gh/will-wow/pipeout/branch/master/graph/badge.svg)](https://codecov.io/gh/will-wow/pipeout)
 [![David Dependency Status](https://david-dm.org/will-wow/pipeout.svg)](https://david-dm.org/will-wow/pipeout)
 
