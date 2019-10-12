@@ -3,17 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>pipeout</title>
+	<title>Pipe | pipeout</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 <header>
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">pipeout</a>
+					<a href="../index.html" class="title">pipeout</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -49,132 +49,141 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="globals.html">Globals</a>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="pipe.html">Pipe</a>
 				</li>
 			</ul>
-			<h1> pipeout</h1>
+			<h1>Interface Pipe&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#pipeout" id="pipeout" style="color: inherit; text-decoration: none;">
-					<h1>Pipeout</h1>
-				</a>
-				<img width="80" height="80" src="./assets/logo.png" alt="logo" align="right" />
-				<p>A library for piping values through transformations, in a type-safe way.</p>
-				<p><a href="https://codecov.io/gh/will-wow/pipeout"><img src="https://codecov.io/gh/will-wow/pipeout/branch/master/graph/badge.svg" alt="codecov"></a>
-				<a href="https://david-dm.org/will-wow/pipeout"><img src="https://david-dm.org/will-wow/pipeout.svg" alt="David Dependency Status"></a></p>
-				<p>It&#39;s like <code>pipe</code> from lodash and Ramda, but with partial application for better type safety.</p>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
-				<pre><code class="language-bash">npm i pipeout --save
-<span class="hljs-comment"># or</span>
-yarn add pipeout</code></pre>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe, pipeA, piper, piperA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;</code></pre>
-				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
-					<h2>Examples</h2>
-				</a>
-				<a href="#synchronous" id="synchronous" style="color: inherit; text-decoration: none;">
-					<h3>Synchronous</h3>
-				</a>
-				<p><code>pipe</code> and <code>piper</code> work with synchronous data (which is not wrapped in a promise).</p>
-				<p>Here&#39;s an example trying to find how many red marbles are in a list.</p>
-				<a href="#codepipecode" id="codepipecode" style="color: inherit; text-decoration: none;">
-					<h4><code>pipe</code></h4>
-				</a>
-				<p><code>pipe</code> is a basic pipe, like <code>|&gt;</code> in Haskell or Elixir. The first value passed in is a value to transform. After that you can pass a series of transformer functions. Each one will transform the value returned from the previous function, and return function ready to be piped again.</p>
-				<p>When you want to extract the value, just use <code>.value</code>.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
-
-<span class="hljs-keyword">const</span> redCount = pipe(marbles)(filterReds)(getLength).value;</code></pre>
-				<a href="#codepipercode" id="codepipercode" style="color: inherit; text-decoration: none;">
-					<h4><code>piper</code></h4>
-				</a>
-				<p><code>piper</code> is more like the <code>pipe</code> from Lodash or Ramda. It takes a series of transformer functions, but doesn&#39;t do any work until you call <code>.run</code> with a value. At that point the value is transformed through the series of registered transformers.</p>
-				<p>It&#39;s often useful to return <code>.run</code> without calling it. That will give you access to a function that can be run at a later time.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { piper } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
-
-<span class="hljs-keyword">const</span> redCounter = piper(filterReds)(getLength).run;
-<span class="hljs-keyword">const</span> redCount = redCounter(marbles);</code></pre>
-				<a href="#asynchronous" id="asynchronous" style="color: inherit; text-decoration: none;">
-					<h3>Asynchronous</h3>
-				</a>
-				<p>There are also asynchronous variants, <code>pipeA</code> and <code>piperA</code>.
-				These will always result in a promise, and will work whether your values and functions are synchronous or asynchronous.</p>
-				<p>All transformer functions should take a value, and can return a value OR a promise.</p>
-				<p>The starting value can be a promise or a value.</p>
-				<p>For this example, we&#39;ll imagine that getting the user&#39;s marbles and getting the user&#39;s favorite color are asynchronous API operations.</p>
-				<a href="#codepipeacode" id="codepipeacode" style="color: inherit; text-decoration: none;">
-					<h4><code>pipeA</code></h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
-
-<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> pipeA(user)(fetchMarbles)(filterWithAsyncColor)(
-  getLength
-).value;</code></pre>
-				<a href="#codepipercode-1" id="codepipercode-1" style="color: inherit; text-decoration: none;">
-					<h4><code>piper</code></h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { piperA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
-
-<span class="hljs-keyword">const</span> redCounter = piperA(fetchMarbles)(filterWithAsyncColor)(getLength);
-<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> redCounter.run(user);</code></pre>
-				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
-					<h2>Contributing</h2>
-				</a>
-				<pre><code class="language-bash">yarn install
-yarn <span class="hljs-built_in">test</span>
-yarn lint
-yarn format
-yarn build</code></pre>
-			</div>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T</h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Pipe</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3 class="tsd-before-signature">Callable</h3>
+				<ul class="tsd-signatures tsd-kind-interface tsd-has-type-parameter">
+					<li class="tsd-signature tsd-kind-icon">__call&lt;U&gt;<span class="tsd-signature-symbol">(</span>transformer<span class="tsd-signature-symbol">: </span><a href="../globals.html#unary" class="tsd-signature-type">Unary</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/will-wow/pipeout/blob/20b33fe/src/index.ts#L5">index.ts:5</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-type-parameters-title">Type parameters</h4>
+						<ul class="tsd-type-parameters">
+							<li>
+								<h4>U</h4>
+							</li>
+						</ul>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>transformer: <a href="../globals.html#unary" class="tsd-signature-type">Unary</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="pipe.html" class="tsd-signature-type">Pipe</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="pipe.html#value" class="tsd-kind-icon">value</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="value" class="tsd-anchor"></a>
+					<h3>value</h3>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/will-wow/pipeout/blob/20b33fe/src/index.ts#L7">index.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-has-type-parameter">
+						<a href="pipe.html" class="tsd-kind-icon">Pipe</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="pipe.html#value" class="tsd-kind-icon">value</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/pipe.html" class="tsd-kind-icon">Pipe</a>
+						<a href="pipea.html" class="tsd-kind-icon">PipeA</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/pipea.html" class="tsd-kind-icon">PipeA</a>
+						<a href="piper.html" class="tsd-kind-icon">Piper</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/piper.html" class="tsd-kind-icon">Piper</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/pipera.html" class="tsd-kind-icon">PiperA</a>
+						<a href="pipera.html" class="tsd-kind-icon">PiperA</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#asyncunary" class="tsd-kind-icon">Async<wbr>Unary</a>
+						<a href="../globals.html#asyncunary" class="tsd-kind-icon">Async<wbr>Unary</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#possiblepromise" class="tsd-kind-icon">Possible<wbr>Promise</a>
+						<a href="../globals.html#possiblepromise" class="tsd-kind-icon">Possible<wbr>Promise</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#unary" class="tsd-kind-icon">Unary</a>
+						<a href="../globals.html#unary" class="tsd-kind-icon">Unary</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#pipe" class="tsd-kind-icon">pipe</a>
+						<a href="../globals.html#pipe" class="tsd-kind-icon">pipe</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#pipea" class="tsd-kind-icon">pipeA</a>
+						<a href="../globals.html#pipea" class="tsd-kind-icon">pipeA</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#piper" class="tsd-kind-icon">piper</a>
+						<a href="../globals.html#piper" class="tsd-kind-icon">piper</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#pipera" class="tsd-kind-icon">piperA</a>
+						<a href="../globals.html#pipera" class="tsd-kind-icon">piperA</a>
 					</li>
 				</ul>
 			</nav>
@@ -245,7 +254,7 @@ yarn build</code></pre>
 	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>
