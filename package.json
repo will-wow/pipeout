@@ -9,7 +9,10 @@
     "dist/**/*",
     "src/**/*"
   ],
-  "author": "Will Ockelmann-Wagner <wow@carbonfive.com>",
+  "author": "Will Ockelmann-Wagner <wow@carbonfive.com> (https://github.com/will-wow)",
+  "contributors": [
+    "Sidney Keese (https://github.com/sidke)"
+  ],
   "license": "MIT",
   "private": false,
   "repository": {
