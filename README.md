@@ -42,6 +42,16 @@ import { pipe } from "pipeout";
 const redCount = pipe(marbles)(filterReds)(getLength).value;
 ```
 
+**Note**
+
+Since `pipe` is a pretty common function name in libraries
+([like RxJS](https://rxjs-dev.firebaseapp.com/api/index/function/pipe)),
+`pipe` is aliased as `pip` for convenience.
+
+```javascript
+import { pip } from "pipeout";`
+```
+
 #### `piper`
 
 `piper` is more like the `pipe` from Lodash or Ramda. It takes a series of transformer functions, but doesn't do any work until you call `.run` with a value. At that point the value is transformed through the series of registered transformers.

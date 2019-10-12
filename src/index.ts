@@ -35,6 +35,8 @@ export function pipe<T>(value: T): Pipe<T> {
   return nextPipe;
 }
 
+export { pipe as pip };
+
 /**
  * Pipe a value through a series of transformers,
  * where the value can be a promise and transformers can return promises.

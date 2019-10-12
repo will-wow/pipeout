@@ -1,4 +1,4 @@
-import { pipe, pipeA, piper, piperA } from "./index";
+import { pipe, pip, pipeA, piper, piperA } from "./index";
 import * as fp from "lodash/fp";
 import * as _ from "lodash";
 
@@ -36,6 +36,14 @@ describe("readme", () => {
   describe("pipe", () => {
     it("handles the readme example", () => {
       const redCount = pipe(marbles)(filterReds)(getLength).value;
+
+      expect(redCount).toBe(3);
+    });
+  });
+
+  describe("pip", () => {
+    it("handles the readme example", () => {
+      const redCount = pip(marbles)(filterReds)(getLength).value;
 
       expect(redCount).toBe(3);
     });
