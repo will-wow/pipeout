@@ -1,7 +1,14 @@
 {
   "name": "pipeout",
   "version": "0.0.0",
-  "main": "index.js",
+  "description": "Error handling",
+  "main": "dist/pipeout.cjs.js",
+  "module": "dist/pipeout.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "src/**/*"
+  ],
   "author": "Will Ockelmann-Wagner <wow@carbonfive.com>",
   "license": "MIT",
   "private": false,
@@ -32,6 +39,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.18.2",
     "rollup": "^1.23.1",
+    "rollup-plugin-typescript2": "^0.24.3",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
     "typedoc": "^0.15.0",
@@ -40,8 +48,7 @@
   "scripts": {
     "build": "rollup -c",
     "docs": "typedoc && cp -R assets/* docs/assets/ && cp favicon.ico docs",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "prepublishOnly": "npm-run-all lint test build",
     "test": "jest",
     "format": "npm-run-all -c format:*",
     "format:eslint": "eslint --fix '**/*.ts'",

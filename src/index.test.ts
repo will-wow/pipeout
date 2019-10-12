@@ -1,5 +1,4 @@
-import { pipe, pipeAsync } from "./index";
-import { pipe as cPipe, pipeAsync as cPipeAsync } from "./fp";
+import { pipe, pipeAsync, pipeCurried, pipeAsyncCurried } from "./index";
 
 type A = { x: "a" };
 type B = { x: "b" };
@@ -63,14 +62,14 @@ describe("pipeout", () => {
   describe("curried functions", () => {
     describe("pipe", () => {
       it("pipes through multiple transforms", () => {
-        const transform = cPipe(aToB)(bToC)(cToD).run;
+        const transform = pipeCurried(aToB)(bToC)(cToD).run;
         expect(transform(a)).toEqual(d);
       });
     });
 
     describe("pipeAsync", () => {
       it("pipes through multiple transforms", async () => {
-        const transform = cPipeAsync(aToBAsync)(bToCAsync)(cToDAsync).run;
+        const transform = pipeAsyncCurried(aToBAsync)(bToCAsync)(cToDAsync).run;
         expect(await transform(a)).toEqual(d);
       });
     });
