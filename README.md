@@ -1,6 +1,8 @@
 # Pipeout
 
-A library for piping values through transformations.
+<img width="80" height="80" src="./assets/logo.png" alt="logo" align="right" />
+
+A library for piping values through transformations, in a type-safe way.
 
 It's like `pipe` from lodash and Ramda, but with partial application for better type safety.
 
