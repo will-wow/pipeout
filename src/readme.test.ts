@@ -74,8 +74,14 @@ describe("readme", () => {
 
   describe("piperA", () => {
     it("handles the readme example", async () => {
-      const redCounter = piperA(fetchMarbles)(filterWithAsyncColor)(getLength);
-      const redCount = await redCounter.run(user);
+      // prettier-ignore
+      const redCounter = piperA
+        (fetchMarbles)
+        (filterWithAsyncColor)
+        (getLength)
+        .run;
+
+      const redCount = await redCounter(user);
 
       expect(redCount).toBe(3);
     });
