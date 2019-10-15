@@ -35,7 +35,10 @@ const filterWithAsyncColor = async (marbles: Marble[]) => {
 describe("readme", () => {
   describe("pipe", () => {
     it("handles the readme example", () => {
-      const redCount = pipe(marbles)(filterReds)(getLength).value;
+      const redCount = pipe(marbles)
+        .thru(filterReds)
+        .thru(getLength)
+        .value();
 
       expect(redCount).toBe(3);
     });
@@ -43,7 +46,10 @@ describe("readme", () => {
 
   describe("pip", () => {
     it("handles the readme example", () => {
-      const redCount = pip(marbles)(filterReds)(getLength).value;
+      const redCount = pip(marbles)
+        .thru(filterReds)
+        .thru(getLength)
+        .value();
 
       expect(redCount).toBe(3);
     });
@@ -51,7 +57,7 @@ describe("readme", () => {
 
   describe("piper", () => {
     it("handles the readme example", () => {
-      const redCounter = piper(filterReds)(getLength).run;
+      const redCounter = piper.thru(filterReds).thru(getLength).run;
       const redCount = redCounter(marbles);
 
       expect(redCount).toBe(3);
@@ -60,13 +66,11 @@ describe("readme", () => {
 
   describe("pipeA", () => {
     it("handles the readme example", async () => {
-      // prettier-ignore
-      const redCount = await pipeA
-        (user)
-        (fetchMarbles)
-        (filterWithAsyncColor)
-        (getLength)
-        .value;
+      const redCount = await pipeA(user)
+        .thru(fetchMarbles)
+        .thru(filterWithAsyncColor)
+        .thru(getLength)
+        .value();
 
       expect(redCount).toBe(3);
     });
@@ -74,14 +78,12 @@ describe("readme", () => {
 
   describe("piperA", () => {
     it("handles the readme example", async () => {
-      // prettier-ignore
       const redCounter = piperA
-        (fetchMarbles)
-        (filterWithAsyncColor)
-        (getLength)
-        .run;
+        .thru(fetchMarbles)
+        .thru(filterWithAsyncColor)
+        .thru(getLength).run;
 
-      const redCount = await redCounter(user);
+      const redCount = await redCounter(Promise.resolve(user));
 
       expect(redCount).toBe(3);
     });
