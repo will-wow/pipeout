@@ -75,41 +75,53 @@
 				<pre><code class="language-bash">npm i pipeout --save
 <span class="hljs-comment"># or</span>
 yarn add pipeout</code></pre>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe, pipeA, piper, piperA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;</code></pre>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe, pipeA, pipe, pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;</code></pre>
 				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
 					<h2>Examples</h2>
 				</a>
+				<p>For these examples, we&#39;ll imagine we&#39;re building a set of functions for counting and filtering marbles. For the full example, see <a href="./src/readme.test.ts">readme.test.ts</a>.</p>
 				<a href="#synchronous" id="synchronous" style="color: inherit; text-decoration: none;">
 					<h3>Synchronous</h3>
 				</a>
-				<p><code>pipe</code> and <code>piper</code> work with synchronous data (which is not wrapped in a promise).</p>
+				<p><code>pipe</code> and <code>pipe</code> work with synchronous data (which is not wrapped in a promise).</p>
 				<p>Here&#39;s an example trying to find how many red marbles are in a list.</p>
 				<a href="#codepipecode" id="codepipecode" style="color: inherit; text-decoration: none;">
 					<h4><code>pipe</code></h4>
 				</a>
-				<p><code>pipe</code> is a basic pipe, like <code>|&gt;</code> in Haskell or Elixir. The first value passed in is a value to transform. After that you can pass a series of transformer functions. Each one will transform the value returned from the previous function, and return function ready to be piped again.</p>
-				<p>When you want to extract the value, just use <code>.value</code>.</p>
+				<p><code>pipe</code> is a basic pipe, like <code>|&gt;</code> in Haskell or Elixir. The first value passed in is a value to transform. After that you can pass a series of transformer functions by using the <code>thru</code> method. Each one will transform the value returned from the previous function, and return an object you can call <code>.thru</code> on again to pipe again, or call <code>.value()</code> on to get the transformed value.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
 
-<span class="hljs-keyword">const</span> redCount = pipe(marbles)(filterReds)(getLength).value;</code></pre>
+<span class="hljs-keyword">const</span> redCount = pipe(marbles)
+  .thru(filterReds)
+  .thru(getLength)
+  .value();</code></pre>
 				<p><strong>Note</strong></p>
 				<p>Since <code>pipe</code> is a pretty common function name in libraries
 					(<a href="https://rxjs-dev.firebaseapp.com/api/index/function/pipe">like RxJS</a>),
 				<code>pipe</code> is aliased as <code>pip</code> for convenience.</p>
 				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { pip } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;<span class="hljs-string">`</span></code></pre>
-				<a href="#codepipercode" id="codepipercode" style="color: inherit; text-decoration: none;">
-					<h4><code>piper</code></h4>
+				<a href="#point-free-codepipethrucode" id="point-free-codepipethrucode" style="color: inherit; text-decoration: none;">
+					<h4>Point-free <code>pipe.thru</code></h4>
 				</a>
-				<p><code>piper</code> is more like the <code>pipe</code> from Lodash or Ramda. It takes a series of transformer functions, but doesn&#39;t do any work until you call <code>.run</code> with a value. At that point the value is transformed through the series of registered transformers.</p>
-				<p>It&#39;s often useful to return <code>.run</code> without calling it. That will give you access to a function that can be run at a later time.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { piper } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
+				<p><code>pipe</code> in Lodash or Ramda works a little differently. Instead of passing in the value to transform immediately, it just takes a list of functions, and returns a function that will run the transformations when called. In functional programming this is called a &quot;point-free function&quot;, and is good for situations where you&#39;re defining a function that will be run later.</p>
+				<p>If you want the same thing in <code>pipeout</code>, then instead of calling <code>pipe()</code>, call <code>pipe.thru</code>. You still chain together functions with <code>.thru</code>, but now calling the resulting function will run the pipeline.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
 
-<span class="hljs-keyword">const</span> redCounter = piper(filterReds)(getLength).run;
+<span class="hljs-keyword">const</span> redCounter = pipe.thru(filterReds).thru(getLength);
 <span class="hljs-keyword">const</span> redCount = redCounter(marbles);</code></pre>
+				<p><strong>Immutable pipes</strong></p>
+				<p>Calling <code>.thru</code> returns a <em>new</em> function, so if you have a reference to a pipe, calling <code>.thru</code> on it won&#39;t mutate the original function.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
+
+<span class="hljs-keyword">const</span> getSmallReds = pipe.thru(onlyRed).thru(onlySmall);
+<span class="hljs-keyword">const</span> smallRedCounter = getSmallReds.thru(getLength);
+
+<span class="hljs-keyword">const</span> smallReds = getSmallReds(marbles);
+<span class="hljs-keyword">const</span> smallRedCount = smallRedCounter(marbles);</code></pre>
 				<a href="#asynchronous" id="asynchronous" style="color: inherit; text-decoration: none;">
 					<h3>Asynchronous</h3>
 				</a>
-				<p>There are also asynchronous variants, <code>pipeA</code> and <code>piperA</code>.
+				<p>There are also asynchronous variants, <code>pipeA</code> and <code>pipeA.thru</code>.
 				These will always result in a promise, and will work whether your values and functions are synchronous or asynchronous.</p>
 				<p>All transformer functions should take a value, and can return a value OR a promise.</p>
 				<p>The starting value can be a promise or a value.</p>
@@ -119,42 +131,44 @@ yarn add pipeout</code></pre>
 				</a>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
 
-<span class="hljs-comment">// prettier-ignore</span>
-<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> pipeA
-  (user)
-  (fetchMarbles)
-  (filterWithAsyncColor)
-  (getLength)
-  .value;</code></pre>
-				<a href="#codepipercode-1" id="codepipercode-1" style="color: inherit; text-decoration: none;">
-					<h4><code>piper</code></h4>
+<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> pipeA(user)
+  .thru(fetchMarbles)
+  .thru(filterForFavoriteColor)
+  .thru(getLength)
+  .value();</code></pre>
+				<a href="#codepipeathrucode" id="codepipeathrucode" style="color: inherit; text-decoration: none;">
+					<h4><code>pipeA.thru</code></h4>
 				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { piperA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
 
-<span class="hljs-comment">// prettier-ignore</span>
-<span class="hljs-keyword">const</span> redCounter = piperA
-  (fetchMarbles)
-  (filterWithAsyncColor)
-  (getLength)
-  .run;
+<span class="hljs-keyword">const</span> redCounter = pipeA
+  .thru(fetchMarbles)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
 
 <span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> redCounter(user);</code></pre>
-				<a href="#formatting" id="formatting" style="color: inherit; text-decoration: none;">
-					<h2>Formatting</h2>
+				<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
+					<h4>Error Handling</h4>
 				</a>
-				<p>JavaScript allows whitespace between a function and its arguments when calling it. That means that for a long pipeline you can put every function on its on line, like so:</p>
-				<pre><code class="language-javascript"><span class="hljs-comment">// prettier-ignore</span>
-<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> pipeA
-  (user)
-  (fetchMarbles)
-  (filterWithAsyncColor)
-  (getLength)
-  .value;</code></pre>
-				<p>That&#39;s nicely readable, and a visually distinct pipeline. Unfortunately as the <code>// prettier-ignore</code> comment suggests, <a href="https://prettier.io">prettier</a> will reformat that to this:</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> pipeA(user)(fetchMarbles)(filterWithAsyncColor)(
-  getLength
-).value;</code></pre>
-				<p>That&#39;s not great. At some point custom eslint rule might be able to solve this problem. In the meantime, if you use prettier, adding <code>// prettier-ignore</code> above long pipelines is a good idea.</p>
+				<p>Because <code>pipeA</code> chains together promises, you can handle promise errors as normal.</p>
+				<p>You can <code>.catch</code> errors:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> redCounter = pipeA
+  .thru(fetchMarbles)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
+
+<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> redCounter(<span class="hljs-built_in">Promise</span>.resolve(user));</code></pre>
+				<p>Or handle them with async/await and try/catch:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> redCounter = pipeA
+  .thru(fetchMarblesWillFail)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
+
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">await</span> redCounter(<span class="hljs-built_in">Promise</span>.resolve(user));
+} <span class="hljs-keyword">catch</span> (error) {
+  expect(error).toBe(<span class="hljs-string">"you've lost your marbles!"</span>);
+}</code></pre>
 				<a href="#why-another-pipe-function" id="why-another-pipe-function" style="color: inherit; text-decoration: none;">
 					<h2>Why another pipe function?</h2>
 				</a>
@@ -165,22 +179,24 @@ yarn add pipeout</code></pre>
   b,
   c
 )(value);</code></pre>
-				<p>That works pretty well! But creating TypeScript typings for it is a pain, as you have to declare a separate overload for every possible arity, like these <a href="">Ramda types</a>:</p>
+				<p>That works pretty well! But creating TypeScript typings for it is a pain, as you have to declare a separate overload for every possible arity, like these <a href="https://github.com/Saul-Mirone/DefinitelyTyped/blob/e99d2d4e482b4a1f10523b7f6201dd413b33bcad/types/ramda/index.d.ts#L2183">Ramda types</a>:</p>
 				<pre><code class="language-typescript">pipe&lt;T1&gt;<span class="hljs-function">(<span class="hljs-params">fn0: (<span class="hljs-params"></span>) =&gt; T1</span>): <span class="hljs-params">()</span> =&gt;</span> T1;
 pipe&lt;V0, T1&gt;<span class="hljs-function">(<span class="hljs-params">fn0: (<span class="hljs-params">x0: V0</span>) =&gt; T1</span>): (<span class="hljs-params">x0: V0</span>) =&gt;</span> T1;
 pipe&lt;V0, V1, T1&gt;<span class="hljs-function">(<span class="hljs-params">fn0: (<span class="hljs-params">x0: V0, x1: V1</span>) =&gt; T1</span>): (<span class="hljs-params">x0: V0, x1: V1</span>) =&gt;</span> T1;
 pipe&lt;V0, V1, V2, T1&gt;<span class="hljs-function">(<span class="hljs-params">fn0: (<span class="hljs-params">x0: V0, x1: V1, x2: V2</span>) =&gt; T1</span>): (<span class="hljs-params">x0: V0, x1: V1, x2: V2</span>) =&gt;</span> T1;
 ...</code></pre>
-				<p>What a pain to maintain! Pipeout takes a different approach. <code>pipe</code> is mostly useful for curried functions - so why not curry <code>pipe</code> itself? <code>pipeout.piper</code> is a recursive curried function. It takes a single function, and returns a version of <code>piper</code> that already has the first function in memory. So you can keep calling that function, passing in more transformers. When you&#39;re done setting up functions, you call <code>.run</code> with an argument, and it passing your value through all the functions.</p>
-				<p>It looks like this:
-				That means we can write pipelines like this:</p>
-				<pre><code class="language-javascript">piper(a)(b)(c).run(value);</code></pre>
-				<p>And this type can handle as many transformer functions as you want:</p>
+				<p>What a pain to maintain! Pipeout takes a different approach. <code>pipe</code> is mostly useful for curried functions - so why not curry <code>pipe</code> itself? <code>pipeout.pipe.thru</code> is essentially a recursive curried function. It takes a single function, and returns a version of <code>pipe</code> that already has the first function in memory. So you can keep calling <code>.thru</code>, passing in more transformers. When you&#39;re done setting up functions, you call <code>.run</code> with an argument, and it passing your value through all the functions.</p>
+				<p>That means we can write the same thing like this:</p>
+				<pre><code class="language-javascript">pipe
+  .thru(a)
+  .thru(b)
+  .thru(c)(value);</code></pre>
+				<p>It&#39;s type-safe, no matter how many functions you add in. And the type is nice and simple, instead of the long overloaded type from Ramda. Every call to <code>pipe.thru</code> just returns this same recursive type:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Piper&lt;T, U&gt; {
-  &lt;V&gt;<span class="hljs-function">(<span class="hljs-params">transformer: (<span class="hljs-params">u: U</span>) =&gt; V</span>): <span class="hljs-params">Piper</span>&lt;<span class="hljs-params">T</span>, <span class="hljs-params">V</span>&gt;;
-  <span class="hljs-params">run</span>: (<span class="hljs-params">value: T</span>) =&gt;</span> U;
+  (value: T): U;
+  thru: &lt;V&gt;<span class="hljs-function">(<span class="hljs-params">transformer: Unary&lt;U, V&gt;</span>) =&gt;</span> Piper&lt;T, V&gt;;
 }</code></pre>
-				<p>That keeps the types simple for maintainers, and is conceptually satisfying - the type returned at any point in the pipeline is just <code>Piper&lt;T, U&gt;</code>, where <code>T</code> in the value is pass in, and <code>U</code> is the value that will come out if you call <code>.run</code>, or that the next transformer should take as an argument. All the intermediate transformations aren&#39;t relevant, so they don&#39;t have to show up in the type. Simple!</p>
+				<p>It describes how you can call the function to transform <code>T</code> to <code>U</code>, or call <code>.thru</code> to get a <code>T</code> to <code>V</code> pipeline instead. All the intermediate transformations aren&#39;t relevant, so they don&#39;t have to show up in the type. Simple!</p>
 				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
 					<h2>Contributing</h2>
 				</a>
@@ -189,6 +205,10 @@ yarn <span class="hljs-built_in">test</span>
 yarn lint
 yarn format
 yarn build</code></pre>
+				<a href="#thanks" id="thanks" style="color: inherit; text-decoration: none;">
+					<h2>Thanks</h2>
+				</a>
+				<p>Thanks to <a href="https://ramdajs.com">Ramda</a> for their <code>pipe</code> function, and mostly thanks to <a href="sidkey">@sidke</a> for coming up with the original idea for Pipeout, and working through the types with me.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -196,6 +216,12 @@ yarn build</code></pre>
 				<ul>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module tsd-has-type-parameter">
+						<a href="modules/pipe.html">pipe</a>
+					</li>
+					<li class=" tsd-kind-module tsd-has-type-parameter">
+						<a href="modules/pipea.html">pipeA</a>
 					</li>
 				</ul>
 			</nav>
@@ -221,18 +247,6 @@ yarn build</code></pre>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="globals.html#unary" class="tsd-kind-icon">Unary</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#pipe" class="tsd-kind-icon">pipe</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#pipea" class="tsd-kind-icon">pipeA</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#piper" class="tsd-kind-icon">piper</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#pipera" class="tsd-kind-icon">piperA</a>
 					</li>
 				</ul>
 			</nav>

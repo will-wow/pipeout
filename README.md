@@ -19,27 +19,30 @@ yarn add pipeout
 ```
 
 ```typescript
-import { pipe, pipeA, piper, piperA } from "pipeout";
+import { pipe, pipeA } from "pipeout";
 ```
 
 ## Examples
 
+For these examples, we'll imagine we're building a set of functions for counting and filtering marbles. For the full example, see [readme.test.ts](./src/readme.test.ts).
+
 ### Synchronous
 
-`pipe` and `piper` work with synchronous data (which is not wrapped in a promise).
+`pipe` and `pipe` work with synchronous data (which is not wrapped in a promise).
 
 Here's an example trying to find how many red marbles are in a list.
 
 #### `pipe`
 
-`pipe` is a basic pipe, like `|>` in Haskell or Elixir. The first value passed in is a value to transform. After that you can pass a series of transformer functions. Each one will transform the value returned from the previous function, and return function ready to be piped again.
-
-When you want to extract the value, just use `.value`.
+`pipe` is a basic pipe, like `|>` in Haskell or Elixir. The first value passed in is a value to transform. After that you can pass a series of transformer functions by using the `thru` method. Each one will transform the value returned from the previous function, and return an object you can call `.thru` on again to pipe again, or call `.value()` on to get the transformed value.
 
 ```typescript
 import { pipe } from "pipeout";
 
-const redCount = pipe(marbles)(filterReds)(getLength).value;
+const redCount = pipe(marbles)
+  .thru(filterReds)
+  .thru(getLength)
+  .value();
 ```
 
 **Note**
@@ -52,22 +55,36 @@ Since `pipe` is a pretty common function name in libraries
 import { pip } from "pipeout";`
 ```
 
-#### `piper`
+#### Point-free `pipe.thru`
 
-`piper` is more like the `pipe` from Lodash or Ramda. It takes a series of transformer functions, but doesn't do any work until you call `.run` with a value. At that point the value is transformed through the series of registered transformers.
+`pipe` in Lodash or Ramda works a little differently. Instead of passing in the value to transform immediately, it just takes a list of functions, and returns a function that will run the transformations when called. In functional programming this is called a "point-free function", and is good for situations where you're defining a function that will be run later.
 
-It's often useful to return `.run` without calling it. That will give you access to a function that can be run at a later time.
+If you want the same thing in `pipeout`, then instead of calling `pipe()`, call `pipe.thru`. You still chain together functions with `.thru`, but now calling the resulting function will run the pipeline.
 
 ```typescript
-import { piper } from "pipeout";
+import { pipe } from "pipeout";
 
-const redCounter = piper(filterReds)(getLength).run;
+const redCounter = pipe.thru(filterReds).thru(getLength);
 const redCount = redCounter(marbles);
+```
+
+**Immutable pipes**
+
+Calling `.thru` returns a _new_ function, so if you have a reference to a pipe, calling `.thru` on it won't mutate the original function.
+
+```typescript
+import { pipe } from "pipeout";
+
+const getSmallReds = pipe.thru(onlyRed).thru(onlySmall);
+const smallRedCounter = getSmallReds.thru(getLength);
+
+const smallReds = getSmallReds(marbles);
+const smallRedCount = smallRedCounter(marbles);
 ```
 
 ### Asynchronous
 
-There are also asynchronous variants, `pipeA` and `piperA`.
+There are also asynchronous variants, `pipeA` and `pipeA.thru`.
 These will always result in a promise, and will work whether your values and functions are synchronous or asynchronous.
 
 All transformer functions should take a value, and can return a value OR a promise.
@@ -81,53 +98,57 @@ For this example, we'll imagine that getting the user's marbles and getting the 
 ```typescript
 import { pipeA } from "pipeout";
 
-// prettier-ignore
-const redCount = await pipeA
-  (user)
-  (fetchMarbles)
-  (filterWithAsyncColor)
-  (getLength)
-  .value;
+const redCount = await pipeA(user)
+  .thru(fetchMarbles)
+  .thru(filterForFavoriteColor)
+  .thru(getLength)
+  .value();
 ```
 
-#### `piper`
+#### `pipeA.thru`
 
 ```typescript
-import { piperA } from "pipeout";
+import { pipeA } from "pipeout";
 
-// prettier-ignore
-const redCounter = piperA
-  (fetchMarbles)
-  (filterWithAsyncColor)
-  (getLength)
-  .run;
+const redCounter = pipeA
+  .thru(fetchMarbles)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
 
 const redCount = await redCounter(user);
 ```
 
-## Formatting
+#### Error Handling
 
-JavaScript allows whitespace between a function and its arguments when calling it. That means that for a long pipeline you can put every function on its on line, like so:
+Because `pipeA` chains together promises, you can handle promise errors as normal.
 
-```javascript
-// prettier-ignore
-const redCount = await pipeA
-  (user)
-  (fetchMarbles)
-  (filterWithAsyncColor)
-  (getLength)
-  .value;
-```
-
-That's nicely readable, and a visually distinct pipeline. Unfortunately as the `// prettier-ignore` comment suggests, [prettier](https://prettier.io) will reformat that to this:
+You can `.catch` errors:
 
 ```javascript
-const redCount = await pipeA(user)(fetchMarbles)(filterWithAsyncColor)(
-  getLength
-).value;
+const redCounter = pipeA
+  .thru(fetchMarbles)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
+
+const redCount = await redCounter(Promise.resolve(user));
 ```
 
-That's not great. At some point custom eslint rule might be able to solve this problem. In the meantime, if you use prettier, adding `// prettier-ignore` above long pipelines is a good idea.
+Or handle them with async/await and try/catch:
+
+```javascript
+const redCounter = pipeA
+  .thru(fetchMarblesWillFail)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
+
+try {
+  await redCounter(Promise.resolve(user));
+} catch (error) {
+  expect(error).toBe("you've lost your marbles!");
+}
+```
+
+To handle errors in a more type-safe way, check out [result-async](https://github.com/will-wow/result-async). It's designed to work with asynchronous `pipe` functions like Pipeout's, and is built around promises that always resolve to a `Result` type.
 
 ## Why another pipe function?
 
@@ -143,7 +164,7 @@ pipe(
 )(value);
 ```
 
-That works pretty well! But creating TypeScript typings for it is a pain, as you have to declare a separate overload for every possible arity, like these [Ramda types]():
+That works pretty well! But creating TypeScript typings for it is a pain, as you have to declare a separate overload for every possible arity, like these [Ramda types](https://github.com/Saul-Mirone/DefinitelyTyped/blob/e99d2d4e482b4a1f10523b7f6201dd413b33bcad/types/ramda/index.d.ts#L2183):
 
 ```typescript
 pipe<T1>(fn0: () => T1): () => T1;
@@ -153,25 +174,27 @@ pipe<V0, V1, V2, T1>(fn0: (x0: V0, x1: V1, x2: V2) => T1): (x0: V0, x1: V1, x2: 
 ...
 ```
 
-What a pain to maintain! Pipeout takes a different approach. `pipe` is mostly useful for curried functions - so why not curry `pipe` itself? `pipeout.piper` is a recursive curried function. It takes a single function, and returns a version of `piper` that already has the first function in memory. So you can keep calling that function, passing in more transformers. When you're done setting up functions, you call `.run` with an argument, and it passing your value through all the functions.
+What a pain to maintain! Pipeout takes a different approach. `pipe` is mostly useful for curried functions - so why not curry `pipe` itself? `pipeout.pipe.thru` is essentially a recursive curried function. It takes a single function, and returns a version of `pipe` that already has the first function in memory. So you can keep calling `.thru`, passing in more transformers. When you're done setting up functions, you call `.run` with an argument, and it passing your value through all the functions.
 
-It looks like this:
-That means we can write pipelines like this:
+That means we can write the same thing like this:
 
 ```javascript
-piper(a)(b)(c).run(value);
+pipe
+  .thru(a)
+  .thru(b)
+  .thru(c)(value);
 ```
 
-And this type can handle as many transformer functions as you want:
+It's type-safe, no matter how many functions you add in. And the type is nice and simple, instead of the long overloaded type from Ramda. Every call to `pipe.thru` just returns this same recursive type:
 
 ```typescript
 export interface Piper<T, U> {
-  <V>(transformer: (u: U) => V): Piper<T, V>;
-  run: (value: T) => U;
+  (value: T): U;
+  thru: <V>(transformer: Unary<U, V>) => Piper<T, V>;
 }
 ```
 
-That keeps the types simple for maintainers, and is conceptually satisfying - the type returned at any point in the pipeline is just `Piper<T, U>`, where `T` in the value is pass in, and `U` is the value that will come out if you call `.run`, or that the next transformer should take as an argument. All the intermediate transformations aren't relevant, so they don't have to show up in the type. Simple!
+It describes how you can call the function to transform `T` to `U`, or call `.thru` to get a `T` to `V` pipeline instead. All the intermediate transformations aren't relevant, so they don't have to show up in the type. Simple!
 
 ## Contributing
 
@@ -182,3 +205,7 @@ yarn lint
 yarn format
 yarn build
 ```
+
+## Thanks
+
+Thanks to [Ramda](https://ramdajs.com) for their `pipe` function, and mostly thanks to [@sidke](sidkey) for coming up with the original idea for Pipeout, and working through the types with me.

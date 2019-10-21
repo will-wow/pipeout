@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+## [0.1.0]
 
 ### Changed
 
-### Fixed
+- Replaced `pipe(a)(b)(c)` with `pipe(a).thru(b).thru(c)` for better readability and auto-formatting.
+- piper and piperA functions. Use `pipe.thru` and `pipeA.thru` instead.
 
 ## [0.0.2]
 

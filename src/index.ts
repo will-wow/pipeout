@@ -1,38 +1,100 @@
+/** A value that may or may not be a promise. */
 export type PossiblePromise<T> = T | Promise<T>;
-export type Unary<In, Out> = (x: In) => Out;
-export type AsyncUnary<In, Out> = (x: In) => PossiblePromise<Out>;
+/** A function that takes a single argument and transforms it. */
+export type Unary<T, U> = (x: T) => U;
+/** A function that takes a single argument and transforms it, possibly returning a Promise. */
+export type AsyncUnary<T, U> = (x: T) => PossiblePromise<U>;
 
+/** The return value from `pipe()` */
 export interface Pipe<T> {
-  <U>(transformer: Unary<T, U>): Pipe<U>;
-  value: T;
+  /** Add another transformer */
+  thru: <U>(transformer: Unary<T, U>) => Pipe<U>;
+  /** Get the transomed value. */
+  value: () => T;
 }
 
+/** The return value from `pipeA()` */
 export interface PipeA<T> {
-  <U>(transformer: AsyncUnary<T, U>): PipeA<U>;
-  value: Promise<T>;
+  /** Add another transformer */
+  thru: <U>(transformer: AsyncUnary<T, U>) => PipeA<U>;
+  /** Get a promise of the transomed value. */
+  value: () => Promise<T>;
 }
 
+/** The return value from `pipe.thru()` */
 export interface Piper<T, U> {
-  <V>(transformer: Unary<U, V>): Piper<T, V>;
-  run: (value: T) => U;
+  /** Transform a value with the pipeline */
+  (value: T): U;
+  /** Add another transformer */
+  thru: <V>(transformer: Unary<U, V>) => Piper<T, V>;
 }
 
+/** The return value from `pipeA.thru()` */
 export interface PiperA<T, U> {
-  <V>(transformer: AsyncUnary<U, V>): PiperA<T, V>;
-  run: (value: PossiblePromise<T>) => Promise<U>;
+  /** Transform a value with the pipeline */
+  (value: PossiblePromise<T>): Promise<U>;
+  /** Add another transformer */
+  thru: <V>(transformer: AsyncUnary<U, V>) => PiperA<T, V>;
+}
+
+function piper<T, U>(transformer: Unary<T, U>): Piper<T, U> {
+  function nextPipe<V>(nextTransformer: Unary<U, V>): Piper<T, V> {
+    return piper<T, V>(function(value: T) {
+      return nextTransformer(transformer(value));
+    });
+  }
+
+  function run(value: T) {
+    return transformer(value);
+  }
+
+  run.thru = nextPipe;
+
+  return run;
+}
+
+function piperA<T, U>(transformer: AsyncUnary<T, U>): PiperA<T, U> {
+  function nextPipe<V>(nextTransformer: AsyncUnary<U, V>): PiperA<T, V> {
+    async function transformers(value: T): Promise<V> {
+      const next = await transformer(value);
+      return nextTransformer(next);
+    }
+
+    return piperA(transformers);
+  }
+
+  async function run(value: PossiblePromise<T>) {
+    return transformer(await value);
+  }
+
+  run.thru = nextPipe;
+
+  return run;
 }
 
 /**
  * Pipe a value through a series of transformers.
  * @param value - The value to send through the pipeline.
- * @returns nextPipe - Pass a transformer to pipe again. Or, use .value to get the transformed value.
+ * @returns An object with a .value method for getting the transformed value, and a .thru method for piping the value through another transformer.
  */
 export function pipe<T>(value: T): Pipe<T> {
-  function nextPipe<U>(transformer: Unary<T, U>) {
+  function nextPipe<U>(transformer: Unary<T, U>): Pipe<U> {
     return pipe<U>(transformer(value));
   }
-  nextPipe.value = value;
-  return nextPipe;
+
+  return {
+    value: () => value,
+    thru: nextPipe
+  };
+}
+
+export namespace pipe {
+  /**
+   * Create a series of transformers to pipe a value through.
+   * @param transformer - A function that transforms the value.
+   * @returns run - Takes a value and runs it through the pipeline. Also has a .thru method for adding another function to the pipeline.
+   */
+  export const thru = piper;
 }
 
 export { pipe as pip };
@@ -40,48 +102,26 @@ export { pipe as pip };
 /**
  * Pipe a value through a series of transformers,
  * where the value can be a promise and transformers can return promises.
- * @param value - The value to send through the pipeline.
- * @returns nextPipe - Pass a transformer to pipe again. Or, use .value to get the transformed value.
+ * @param value - The value to send through the pipeline. This may be a promise.
+ * @returns An object with a .value method for getting a promise of the transformed value, and a .thru method for piping the value through another transformer.
  */
 export function pipeA<T>(value: PossiblePromise<T>): PipeA<T> {
-  function nextPipe<U>(transformer: AsyncUnary<T, U>) {
+  function nextPipe<U>(transformer: AsyncUnary<T, U>): PipeA<U> {
     return pipeA(Promise.resolve(value).then(transformer));
   }
-  nextPipe.value = Promise.resolve(value);
-  return nextPipe;
-}
 
-/**
- * Create a series of transformers to pipe a value through.
- * @param transformer - A function that transforms the value.
- * @returns nextPipe - Pass a transformer to pipe again. Or, call .run to run the transforms.
- */
-export function piper<T, U>(transformer: Unary<T, U>): Piper<T, U> {
-  function nextPipe<V>(nextTransformer: Unary<U, V>) {
-    return piper<T, V>(function(value: T) {
-      return nextTransformer(transformer(value));
-    });
-  }
-  nextPipe.run = (value: T) => transformer(value);
-  return nextPipe;
-}
-
-/**
- * Create a series of transformers to pipe a value through,
- * where the value can be a promise and transformers can return promises.
- * @param transformer - A function that transforms the value.
- * @returns nextPipe - Pass a transformer to pipe again. Or, call .run to run the transforms.
- */
-export function piperA<T, U>(transformer: AsyncUnary<T, U>): PiperA<T, U> {
-  function nextPipe<V>(nextTransformer: AsyncUnary<U, V>) {
-    return piperA(async function(valuePromise: PossiblePromise<T>): Promise<V> {
-      const value = await valuePromise;
-      const next = await transformer(value);
-      return nextTransformer(next);
-    });
-  }
-  nextPipe.run = async function(value: PossiblePromise<T>) {
-    return transformer(await value);
+  return {
+    value: () => Promise.resolve(value),
+    thru: nextPipe
   };
-  return nextPipe;
+}
+
+export namespace pipeA {
+  /**
+   * Create a series of transformers to pipe a value through,
+   * where the value can be a promise and transformers can return promises.
+   * @param transformer - A function that transforms the value. This may return a promise.
+   * @returns run - Takes a value and runs it through the pipeline. Also has a .thru method for adding another function to the pipeline.
+   */
+  export const thru = piperA;
 }

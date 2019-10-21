@@ -1,4 +1,4 @@
-import { pipe, pipeA, piper, piperA } from "./index";
+import { pipe, pipeA } from "./index";
 import * as fp from "lodash/fp";
 
 type A = { x: "a" };
@@ -39,18 +39,24 @@ const marbles: Marble[] = [
 describe("pipeout", () => {
   describe("pipe", () => {
     it("returns a value", () => {
-      expect(pipe(a).value).toEqual(a);
+      expect(pipe(a).value()).toEqual(a);
     });
 
     it("pipes through multiple transforms", () => {
-      const d: D = pipe(a)(aToB)(bToC)(cToD).value;
+      const d: D = pipe(a)
+        .thru(aToB)
+        .thru(bToC)
+        .thru(cToD)
+        .value();
+
       expect(d).toEqual({ x: "d" });
     });
 
     it("works with type inference", () => {
-      const redCount = pipe(marbles)(
-        fp.filter(marble => marble.color === "red")
-      )(marbles => marbles.length).value;
+      const redCount = pipe(marbles)
+        .thru(fp.filter(marble => marble.color === "red"))
+        .thru(marbles => marbles.length)
+        .value();
 
       expect(redCount).toBe(3);
     });
@@ -58,36 +64,54 @@ describe("pipeout", () => {
 
   describe("pipeA", () => {
     it("returns a promise", async () => {
-      expect(await pipeA(aAsync).value).toEqual(a);
+      expect(await pipeA(aAsync).value()).toEqual(a);
     });
 
     it("pipes through multiple transforms", async () => {
-      const result: D = await pipeA(aAsync)(aToBAsync)(bToCAsync)(cToDAsync)
-        .value;
+      const result: D = await pipeA(aAsync)
+        .thru(aToBAsync)
+        .thru(bToCAsync)
+        .thru(cToDAsync)
+        .value();
       expect(result).toEqual(d);
     });
 
     it("pipes a non-promise through transformations", async () => {
-      const result: D = await pipeA(a)(aToB)(bToC)(cToD).value;
+      const result: D = await pipeA(a)
+        .thru(aToB)
+        .thru(bToC)
+        .thru(cToD)
+        .value();
       expect(result).toEqual(d);
     });
 
     it("pipes a through transformations that may or may not be promises", async () => {
-      const result: D = await pipeA(a)(aToB)(bToC)(cToD).value;
+      const result: D = await pipeA(a)
+        .thru(aToB)
+        .thru(bToC)
+        .thru(cToD)
+        .value();
       expect(result).toEqual(d);
     });
   });
 
-  describe("piper", () => {
+  describe("point-free pipe", () => {
     it("pipes through multiple transforms", () => {
-      const transform = piper(aToB)(bToC)(cToD).run;
+      const transform = pipe
+        .thru(aToB)
+        .thru(bToC)
+        .thru(cToD);
+
       expect(transform(a)).toEqual(d);
     });
   });
 
-  describe("piperA", () => {
+  describe("point-free pipeA", () => {
     it("pipes through multiple transforms", async () => {
-      const transform = piperA(aToBAsync)(bToCAsync)(cToDAsync).run;
+      const transform = pipeA
+        .thru(aToBAsync)
+        .thru(bToCAsync)
+        .thru(cToDAsync);
       expect(await transform(a)).toEqual(d);
     });
   });
