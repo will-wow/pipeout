@@ -148,6 +148,8 @@ try {
 }
 ```
 
+To handle errors in a more type-safe way, check out [result-async](https://github.com/will-wow/result-async). It's designed to work with asynchronous `pipe` functions like Pipeout's, and is built around promises that always resolve to a `Result` type.
+
 ## Why another pipe function?
 
 In JavaScript, the traditional `pipe` function in a variadic function that takes any number of unary transformer functions, and returns a function that pipes a value through each transformer.
