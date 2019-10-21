@@ -28,6 +28,8 @@ const onlySmall = fp.filter(isSmall);
 const getLength = <T>(xs: T[]): number => xs.length;
 
 const fetchMarbles = (user: User) => Promise.resolve(user.marbles);
+const fetchMarblesWillFail = (_user: User) =>
+  Promise.reject("you've lost your marbles!");
 const fetchFavoriteColor = () => Promise.resolve("red");
 const filterForFavoriteColor = async (marbles: Marble[]) => {
   const color = await fetchFavoriteColor();
@@ -87,6 +89,17 @@ describe("readme", () => {
 
       expect(redCount).toBe(3);
     });
+
+    it("handles the readme example about errors", async () => {
+      const redCount = await pipeA(user)
+        .thru(fetchMarblesWillFail)
+        .thru(filterForFavoriteColor)
+        .thru(getLength)
+        .value()
+        .catch(() => 0);
+
+      expect(redCount).toBe(0);
+    });
   });
 
   describe("point-free pipeA", () => {
@@ -99,6 +112,19 @@ describe("readme", () => {
       const redCount = await redCounter(Promise.resolve(user));
 
       expect(redCount).toBe(3);
+    });
+
+    it("handles the readme example about errors", async () => {
+      const redCounter = pipeA
+        .thru(fetchMarblesWillFail)
+        .thru(filterForFavoriteColor)
+        .thru(getLength);
+
+      try {
+        await redCounter(Promise.resolve(user));
+      } catch (error) {
+        expect(error).toBe("you've lost your marbles!");
+      }
     });
   });
 });

@@ -147,6 +147,28 @@ yarn add pipeout</code></pre>
   .thru(getLength);
 
 <span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> redCounter(user);</code></pre>
+				<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
+					<h4>Error Handling</h4>
+				</a>
+				<p>Because <code>pipeA</code> chains together promises, you can handle promise errors as normal.</p>
+				<p>You can <code>.catch</code> errors:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> redCounter = pipeA
+  .thru(fetchMarbles)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
+
+<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> redCounter(<span class="hljs-built_in">Promise</span>.resolve(user));</code></pre>
+				<p>Or handle them with async/await and try/catch:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> redCounter = pipeA
+  .thru(fetchMarblesWillFail)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
+
+<span class="hljs-keyword">try</span> {
+  <span class="hljs-keyword">await</span> redCounter(<span class="hljs-built_in">Promise</span>.resolve(user));
+} <span class="hljs-keyword">catch</span> (error) {
+  expect(error).toBe(<span class="hljs-string">"you've lost your marbles!"</span>);
+}</code></pre>
 				<a href="#why-another-pipe-function" id="why-another-pipe-function" style="color: inherit; text-decoration: none;">
 					<h2>Why another pipe function?</h2>
 				</a>
@@ -183,6 +205,10 @@ yarn <span class="hljs-built_in">test</span>
 yarn lint
 yarn format
 yarn build</code></pre>
+				<a href="#thanks" id="thanks" style="color: inherit; text-decoration: none;">
+					<h2>Thanks</h2>
+				</a>
+				<p>Thanks to <a href="https://ramdajs.com">Ramda</a> for their <code>pipe</code> function, and mostly thanks to <a href="sidkey">@sidke</a> for coming up with the original idea for Pipeout, and working through the types with me.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

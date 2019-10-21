@@ -118,6 +118,36 @@ const redCounter = pipeA
 const redCount = await redCounter(user);
 ```
 
+#### Error Handling
+
+Because `pipeA` chains together promises, you can handle promise errors as normal.
+
+You can `.catch` errors:
+
+```javascript
+const redCounter = pipeA
+  .thru(fetchMarbles)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
+
+const redCount = await redCounter(Promise.resolve(user));
+```
+
+Or handle them with async/await and try/catch:
+
+```javascript
+const redCounter = pipeA
+  .thru(fetchMarblesWillFail)
+  .thru(filterForFavoriteColor)
+  .thru(getLength);
+
+try {
+  await redCounter(Promise.resolve(user));
+} catch (error) {
+  expect(error).toBe("you've lost your marbles!");
+}
+```
+
 ## Why another pipe function?
 
 In JavaScript, the traditional `pipe` function in a variadic function that takes any number of unary transformer functions, and returns a function that pipes a value through each transformer.
@@ -173,3 +203,7 @@ yarn lint
 yarn format
 yarn build
 ```
+
+## Thanks
+
+Thanks to [Ramda](https://ramdajs.com) for their `pipe` function, and mostly thanks to [@sidke](sidkey) for coming up with the original idea for Pipeout, and working through the types with me.
