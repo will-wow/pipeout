@@ -19,7 +19,7 @@ yarn add pipeout
 ```
 
 ```typescript
-import { pipe, pipeA, pipe, pipeA } from "pipeout";
+import { pipe, pipeA } from "pipeout";
 ```
 
 ## Examples
