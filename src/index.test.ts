@@ -1,5 +1,4 @@
-import { pipe, pipeA, piper, piperA } from "./index";
-// import * as pipeout from "pipeout";
+import { pipe, pipeA } from "./index";
 import * as fp from "lodash/fp";
 
 type A = { x: "a" };
@@ -96,23 +95,23 @@ describe("pipeout", () => {
     });
   });
 
-  describe("piper", () => {
+  describe("point-free pipe", () => {
     it("pipes through multiple transforms", () => {
-      const transform = piper
+      const transform = pipe
         .thru(aToB)
         .thru(bToC)
-        .thru(cToD).run;
+        .thru(cToD);
 
       expect(transform(a)).toEqual(d);
     });
   });
 
-  describe("piperA", () => {
+  describe("point-free pipeA", () => {
     it("pipes through multiple transforms", async () => {
-      const transform = piperA
+      const transform = pipeA
         .thru(aToBAsync)
         .thru(bToCAsync)
-        .thru(cToDAsync).run;
+        .thru(cToDAsync);
       expect(await transform(a)).toEqual(d);
     });
   });

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Piper | pipeout</title>
+	<title>pipeA | pipeout</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,66 +52,51 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="piper.html">Piper</a>
+					<a href="pipea.html">pipeA</a>
 				</li>
 			</ul>
-			<h1>Interface Piper&lt;T, U&gt;</h1>
+			<h1>Module pipeA</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>The return value from <code>pipe.thru()</code></p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>T</h4>
-					</li>
-					<li>
-						<h4>U</h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">Piper</span>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel">
 				<h3 class="tsd-before-signature">Callable</h3>
-				<ul class="tsd-signatures tsd-kind-interface tsd-has-type-parameter">
-					<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">U</span></li>
+				<ul class="tsd-signatures tsd-kind-module tsd-has-type-parameter">
+					<li class="tsd-signature tsd-kind-icon">pipeA&lt;T&gt;<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="../globals.html#possiblepromise" class="tsd-signature-type">PossiblePromise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/pipea.html" class="tsd-signature-type">PipeA</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/will-wow/pipeout/blob/884d94d/src/index.ts#L25">index.ts:25</a></li>
+								<li>Defined in <a href="https://github.com/will-wow/pipeout/blob/884d94d/src/index.ts#L108">index.ts:108</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Transform a value with the pipeline</p>
+								<p>Pipe a value through a series of transformers,
+								where the value can be a promise and transformers can return promises.</p>
 							</div>
 						</div>
+						<h4 class="tsd-type-parameters-title">Type parameters</h4>
+						<ul class="tsd-type-parameters">
+							<li>
+								<h4>T</h4>
+							</li>
+						</ul>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>value: <span class="tsd-signature-type">T</span></h5>
+								<h5>value: <a href="../globals.html#possiblepromise" class="tsd-signature-type">PossiblePromise</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>The value to send through the pipeline. This may be a promise.</p>
+								</div>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">U</span></h4>
+						<h4 class="tsd-returns-title">Returns <a href="../interfaces/pipea.html" class="tsd-signature-type">PipeA</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<p>An object with a .value method for getting a promise of the transformed value, and a .thru method for piping the value through another transformer.</p>
 					</li>
 				</ul>
 			</section>
@@ -120,56 +105,38 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="piper.html#thru" class="tsd-kind-icon">thru</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="pipea.html#thru" class="tsd-kind-icon">thru</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
 					<a name="thru" class="tsd-anchor"></a>
-					<h3>thru</h3>
-					<div class="tsd-signature tsd-kind-icon">thru<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> thru</h3>
+					<div class="tsd-signature tsd-kind-icon">thru<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">piperA</span><span class="tsd-signature-symbol"> =&nbsp;piperA</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/will-wow/pipeout/blob/884d94d/src/index.ts#L29">index.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/will-wow/pipeout/blob/884d94d/src/index.ts#L126">index.ts:126</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Add another transformer</p>
+							<p>Create a series of transformers to pipe a value through,
+							where the value can be a promise and transformers can return promises.</p>
 						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-has-type-parameter tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon">&lt;V&gt;<span class="tsd-signature-symbol">(</span>transformer<span class="tsd-signature-symbol">: </span><a href="../globals.html#unary" class="tsd-signature-type">Unary</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="piper.html" class="tsd-signature-type">Piper</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-type-parameters-title">Type parameters</h4>
-										<ul class="tsd-type-parameters">
-											<li>
-												<h4>V</h4>
-											</li>
-										</ul>
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>transformer: <a href="../globals.html#unary" class="tsd-signature-type">Unary</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">U</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <a href="piper.html" class="tsd-signature-type">Piper</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>A function that transforms the value. This may return a promise.</p>
+							</dd>
+							<dt>returns</dt>
+							<dd><p>run - Takes a value and runs it through the pipeline. Also has a .thru method for adding another function to the pipeline.</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -180,39 +147,18 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class=" tsd-kind-module tsd-has-type-parameter">
+						<a href="pipe.html">pipe</a>
+					</li>
+					<li class="current tsd-kind-module tsd-has-type-parameter">
+						<a href="pipea.html">pipeA</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="pipe.html" class="tsd-kind-icon">Pipe</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="pipea.html" class="tsd-kind-icon">PipeA</a>
-					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-has-type-parameter">
-						<a href="piper.html" class="tsd-kind-icon">Piper</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="piper.html#thru" class="tsd-kind-icon">thru</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="pipera.html" class="tsd-kind-icon">PiperA</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../globals.html#asyncunary" class="tsd-kind-icon">Async<wbr>Unary</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../globals.html#possiblepromise" class="tsd-kind-icon">Possible<wbr>Promise</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../globals.html#unary" class="tsd-kind-icon">Unary</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="pipea.html#thru" class="tsd-kind-icon">thru</a>
 					</li>
 				</ul>
 			</nav>

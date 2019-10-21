@@ -1,4 +1,4 @@
-import { pipe, pip, pipeA, piper, piperA } from "./index";
+import { pipe, pip, pipeA } from "./index";
 import * as fp from "lodash/fp";
 import * as _ from "lodash";
 
@@ -22,12 +22,14 @@ const marbles: Marble[] = [
 const user = { marbles };
 
 const isRed = (marble: Marble) => marble.color === "red";
-const filterReds = fp.filter(isRed);
+const onlyRed = fp.filter(isRed);
+const isSmall = (marble: Marble) => marble.size === 1;
+const onlySmall = fp.filter(isSmall);
 const getLength = <T>(xs: T[]): number => xs.length;
 
 const fetchMarbles = (user: User) => Promise.resolve(user.marbles);
 const fetchFavoriteColor = () => Promise.resolve("red");
-const filterWithAsyncColor = async (marbles: Marble[]) => {
+const filterForFavoriteColor = async (marbles: Marble[]) => {
   const color = await fetchFavoriteColor();
   return _.filter(marbles, marble => marble.color === color);
 };
@@ -36,7 +38,7 @@ describe("readme", () => {
   describe("pipe", () => {
     it("handles the readme example", () => {
       const redCount = pipe(marbles)
-        .thru(filterReds)
+        .thru(onlyRed)
         .thru(getLength)
         .value();
 
@@ -47,7 +49,7 @@ describe("readme", () => {
   describe("pip", () => {
     it("handles the readme example", () => {
       const redCount = pip(marbles)
-        .thru(filterReds)
+        .thru(onlyRed)
         .thru(getLength)
         .value();
 
@@ -55,12 +57,23 @@ describe("readme", () => {
     });
   });
 
-  describe("piper", () => {
+  describe("point-free pipe", () => {
     it("handles the readme example", () => {
-      const redCounter = piper.thru(filterReds).thru(getLength).run;
+      const redCounter = pipe.thru(onlyRed).thru(getLength);
       const redCount = redCounter(marbles);
 
       expect(redCount).toBe(3);
+    });
+
+    it("handles the readme example about immutable updates", () => {
+      const getSmallReds = pipe.thru(onlyRed).thru(onlySmall);
+      const smallRedCounter = getSmallReds.thru(getLength);
+
+      const smallReds = getSmallReds(marbles);
+      const smallRedCount = smallRedCounter(marbles);
+
+      expect(smallReds.length).toBe(1);
+      expect(smallRedCount).toBe(1);
     });
   });
 
@@ -68,7 +81,7 @@ describe("readme", () => {
     it("handles the readme example", async () => {
       const redCount = await pipeA(user)
         .thru(fetchMarbles)
-        .thru(filterWithAsyncColor)
+        .thru(filterForFavoriteColor)
         .thru(getLength)
         .value();
 
@@ -76,12 +89,12 @@ describe("readme", () => {
     });
   });
 
-  describe("piperA", () => {
+  describe("point-free pipeA", () => {
     it("handles the readme example", async () => {
-      const redCounter = piperA
+      const redCounter = pipeA
         .thru(fetchMarbles)
-        .thru(filterWithAsyncColor)
-        .thru(getLength).run;
+        .thru(filterForFavoriteColor)
+        .thru(getLength);
 
       const redCount = await redCounter(Promise.resolve(user));
 
