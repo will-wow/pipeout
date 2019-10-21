@@ -75,7 +75,7 @@
 				<pre><code class="language-bash">npm i pipeout --save
 <span class="hljs-comment"># or</span>
 yarn add pipeout</code></pre>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe, pipeA, pipe, pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;</code></pre>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe, pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;</code></pre>
 				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
 					<h2>Examples</h2>
 				</a>
@@ -169,6 +169,7 @@ yarn add pipeout</code></pre>
 } <span class="hljs-keyword">catch</span> (error) {
   expect(error).toBe(<span class="hljs-string">"you've lost your marbles!"</span>);
 }</code></pre>
+				<p>To handle errors in a more type-safe way, check out <a href="https://github.com/will-wow/result-async">result-async</a>. It&#39;s designed to work with asynchronous <code>pipe</code> functions like Pipeout&#39;s, and is built around promises that always resolve to a <code>Result</code> type.</p>
 				<a href="#why-another-pipe-function" id="why-another-pipe-function" style="color: inherit; text-decoration: none;">
 					<h2>Why another pipe function?</h2>
 				</a>
