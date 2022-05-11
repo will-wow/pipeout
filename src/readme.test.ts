@@ -16,7 +16,7 @@ const marbles: Marble[] = [
   { color: "red", size: 1 },
   { color: "blue", size: 2 },
   { color: "red", size: 2 },
-  { color: "blue", size: 1 }
+  { color: "blue", size: 1 },
 ];
 
 const user = { marbles };
@@ -33,16 +33,13 @@ const fetchMarblesWillFail = (_user: User) =>
 const fetchFavoriteColor = () => Promise.resolve("red");
 const filterForFavoriteColor = async (marbles: Marble[]) => {
   const color = await fetchFavoriteColor();
-  return _.filter(marbles, marble => marble.color === color);
+  return _.filter(marbles, (marble) => marble.color === color);
 };
 
 describe("readme", () => {
   describe("pipe", () => {
     it("handles the readme example", () => {
-      const redCount = pipe(marbles)
-        .thru(onlyRed)
-        .thru(getLength)
-        .value();
+      const redCount = pipe(marbles).thru(onlyRed).thru(getLength).value();
 
       expect(redCount).toBe(3);
     });
@@ -50,10 +47,7 @@ describe("readme", () => {
 
   describe("pip", () => {
     it("handles the readme example", () => {
-      const redCount = pip(marbles)
-        .thru(onlyRed)
-        .thru(getLength)
-        .value();
+      const redCount = pip(marbles).thru(onlyRed).thru(getLength).value();
 
       expect(redCount).toBe(3);
     });

@@ -1,324 +1,119 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>pipeout</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">pipeout</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
-			<h1> pipeout</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#pipeout" id="pipeout" style="color: inherit; text-decoration: none;">
-					<h1>Pipeout</h1>
-				</a>
-				<img width="80" height="80" src="./assets/logo.png" alt="logo" align="right" />
-				<p>A library for piping values through transformations, in a type-safe way.</p>
-				<p><a href="https://www.npmjs.com/package/pipeout"><img src="https://img.shields.io/npm/v/pipeout.svg" alt="npm package"></a>
-					<a href="https://codecov.io/gh/will-wow/pipeout"><img src="https://codecov.io/gh/will-wow/pipeout/branch/master/graph/badge.svg" alt="codecov"></a>
-				<a href="https://david-dm.org/will-wow/pipeout"><img src="https://david-dm.org/will-wow/pipeout.svg" alt="David Dependency Status"></a></p>
-				<p>It&#39;s like <code>pipe</code> from lodash and Ramda, but with partial application for better type safety. It also includes an asynchronous pipe function for dealing with promises.</p>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
-				<pre><code class="language-bash">npm i pipeout --save
-<span class="hljs-comment"># or</span>
-yarn add pipeout</code></pre>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe, pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;</code></pre>
-				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
-					<h2>Examples</h2>
-				</a>
-				<p>For these examples, we&#39;ll imagine we&#39;re building a set of functions for counting and filtering marbles. For the full example, see <a href="./src/readme.test.ts">readme.test.ts</a>.</p>
-				<a href="#synchronous" id="synchronous" style="color: inherit; text-decoration: none;">
-					<h3>Synchronous</h3>
-				</a>
-				<p><code>pipe</code> and <code>pipe</code> work with synchronous data (which is not wrapped in a promise).</p>
-				<p>Here&#39;s an example trying to find how many red marbles are in a list.</p>
-				<a href="#codepipecode" id="codepipecode" style="color: inherit; text-decoration: none;">
-					<h4><code>pipe</code></h4>
-				</a>
-				<p><code>pipe</code> is a basic pipe, like <code>|&gt;</code> in Haskell or Elixir. The first value passed in is a value to transform. After that you can pass a series of transformer functions by using the <code>thru</code> method. Each one will transform the value returned from the previous function, and return an object you can call <code>.thru</code> on again to pipe again, or call <code>.value()</code> on to get the transformed value.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>pipeout</title><meta name="description" content="Documentation for pipeout"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">pipeout</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>pipeout </h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#pipeout" id="pipeout" style="color: inherit; text-decoration: none;">
+  <h1>Pipeout</h1>
+</a>
+<img width="80" height="80" src="./assets/logo.png" alt="logo" align="right" />
 
-<span class="hljs-keyword">const</span> redCount = pipe(marbles)
-  .thru(filterReds)
-  .thru(getLength)
-  .value();</code></pre>
-				<p><strong>Note</strong></p>
-				<p>Since <code>pipe</code> is a pretty common function name in libraries
-					(<a href="https://rxjs-dev.firebaseapp.com/api/index/function/pipe">like RxJS</a>),
-				<code>pipe</code> is aliased as <code>pip</code> for convenience.</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { pip } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;<span class="hljs-string">`</span></code></pre>
-				<a href="#point-free-codepipethrucode" id="point-free-codepipethrucode" style="color: inherit; text-decoration: none;">
-					<h4>Point-free <code>pipe.thru</code></h4>
-				</a>
-				<p><code>pipe</code> in Lodash or Ramda works a little differently. Instead of passing in the value to transform immediately, it just takes a list of functions, and returns a function that will run the transformations when called. In functional programming this is called a &quot;point-free function&quot;, and is good for situations where you&#39;re defining a function that will be run later.</p>
-				<p>If you want the same thing in <code>pipeout</code>, then instead of calling <code>pipe()</code>, call <code>pipe.thru</code>. You still chain together functions with <code>.thru</code>, but now calling the resulting function will run the pipeline.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
+<p>A library for piping values through transformations, in a type-safe way.</p>
+<p><a href="https://www.npmjs.com/package/pipeout"><img src="https://img.shields.io/npm/v/pipeout.svg" alt="npm package"></a>
+<a href="https://codecov.io/gh/will-wow/pipeout"><img src="https://codecov.io/gh/will-wow/pipeout/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://david-dm.org/will-wow/pipeout"><img src="https://david-dm.org/will-wow/pipeout.svg" alt="David Dependency Status"></a></p>
+<p>It&#39;s like <code>pipe</code> from lodash and Ramda, but with partial application for better type safety. It also includes an asynchronous pipe function for dealing with promises.</p>
 
-<span class="hljs-keyword">const</span> redCounter = pipe.thru(filterReds).thru(getLength);
-<span class="hljs-keyword">const</span> redCount = redCounter(marbles);</code></pre>
-				<p><strong>Immutable pipes</strong></p>
-				<p>Calling <code>.thru</code> returns a <em>new</em> function, so if you have a reference to a pipe, calling <code>.thru</code> on it won&#39;t mutate the original function.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipe } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
+<pre><code class="language-bash"><span class="hl-0">npm i pipeout --save</span><br/><span class="hl-1"># or</span><br/><span class="hl-0">yarn add pipeout</span>
+</code></pre>
+<pre><code class="language-typescript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-3">pipe</span><span class="hl-0">, </span><span class="hl-3">pipeA</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-4">&quot;pipeout&quot;</span><span class="hl-0">;</span>
+</code></pre>
 
-<span class="hljs-keyword">const</span> getSmallReds = pipe.thru(onlyRed).thru(onlySmall);
-<span class="hljs-keyword">const</span> smallRedCounter = getSmallReds.thru(getLength);
+<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+  <h2>Examples</h2>
+</a>
+<p>For these examples, we&#39;ll imagine we&#39;re building a set of functions for counting and filtering marbles. For the full example, see <a href="./src/readme.test.ts">readme.test.ts</a>.</p>
 
-<span class="hljs-keyword">const</span> smallReds = getSmallReds(marbles);
-<span class="hljs-keyword">const</span> smallRedCount = smallRedCounter(marbles);</code></pre>
-				<a href="#asynchronous" id="asynchronous" style="color: inherit; text-decoration: none;">
-					<h3>Asynchronous</h3>
-				</a>
-				<p>There are also asynchronous variants, <code>pipeA</code> and <code>pipeA.thru</code>.
-				These will always result in a promise, and will work whether your values and functions are synchronous or asynchronous.</p>
-				<p>All transformer functions should take a value, and can return a value OR a promise.</p>
-				<p>The starting value can be a promise or a value.</p>
-				<p>For this example, we&#39;ll imagine that getting the user&#39;s marbles and getting the user&#39;s favorite color are asynchronous API operations.</p>
-				<a href="#codepipeacode" id="codepipeacode" style="color: inherit; text-decoration: none;">
-					<h4><code>pipeA</code></h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
+<a href="#synchronous" id="synchronous" style="color: inherit; text-decoration: none;">
+  <h3>Synchronous</h3>
+</a>
+<p><code>pipe</code> and <code>pipe</code> work with synchronous data (which is not wrapped in a promise).</p>
+<p>Here&#39;s an example trying to find how many red marbles are in a list.</p>
 
-<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> pipeA(user)
-  .thru(fetchMarbles)
-  .thru(filterForFavoriteColor)
-  .thru(getLength)
-  .value();</code></pre>
-				<a href="#codepipeathrucode" id="codepipeathrucode" style="color: inherit; text-decoration: none;">
-					<h4><code>pipeA.thru</code></h4>
-				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { pipeA } <span class="hljs-keyword">from</span> <span class="hljs-string">"pipeout"</span>;
+<a href="#pipe" id="pipe" style="color: inherit; text-decoration: none;">
+  <h4><code>pipe</code></h4>
+</a>
+<p><code>pipe</code> is a basic pipe, like <code>|&gt;</code> in Haskell or Elixir. The first value passed in is a value to transform. After that you can pass a series of transformer functions by using the <code>thru</code> method. Each one will transform the value returned from the previous function, and return an object you can call <code>.thru</code> on again to pipe again, or call <code>.value()</code> on to get the transformed value.</p>
+<pre><code class="language-typescript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-3">pipe</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-4">&quot;pipeout&quot;</span><span class="hl-0">;</span><br/><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCount</span><span class="hl-0"> = </span><span class="hl-7">pipe</span><span class="hl-0">(</span><span class="hl-3">marbles</span><span class="hl-0">).</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">filterReds</span><span class="hl-0">).</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">getLength</span><span class="hl-0">).</span><span class="hl-7">value</span><span class="hl-0">();</span>
+</code></pre>
+<p><strong>Note</strong></p>
+<p>Since <code>pipe</code> is a pretty common function name in libraries
+(<a href="https://rxjs-dev.firebaseapp.com/api/index/function/pipe">like RxJS</a>),
+<code>pipe</code> is aliased as <code>pip</code> for convenience.</p>
+<pre><code class="language-javascript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-3">pip</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-4">&quot;pipeout&quot;</span><span class="hl-0">;</span><span class="hl-4">`</span>
+</code></pre>
 
-<span class="hljs-keyword">const</span> redCounter = pipeA
-  .thru(fetchMarbles)
-  .thru(filterForFavoriteColor)
-  .thru(getLength);
+<a href="#point-free-pipethru" id="point-free-pipethru" style="color: inherit; text-decoration: none;">
+  <h4>Point-free <code>pipe.thru</code></h4>
+</a>
+<p><code>pipe</code> in Lodash or Ramda works a little differently. Instead of passing in the value to transform immediately, it just takes a list of functions, and returns a function that will run the transformations when called. In functional programming this is called a &quot;point-free function&quot;, and is good for situations where you&#39;re defining a function that will be run later.</p>
+<p>If you want the same thing in <code>pipeout</code>, then instead of calling <code>pipe()</code>, call <code>pipe.thru</code>. You still chain together functions with <code>.thru</code>, but now calling the resulting function will run the pipeline.</p>
+<pre><code class="language-typescript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-3">pipe</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-4">&quot;pipeout&quot;</span><span class="hl-0">;</span><br/><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCounter</span><span class="hl-0"> = </span><span class="hl-3">pipe</span><span class="hl-0">.</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">filterReds</span><span class="hl-0">).</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">getLength</span><span class="hl-0">);</span><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCount</span><span class="hl-0"> = </span><span class="hl-7">redCounter</span><span class="hl-0">(</span><span class="hl-3">marbles</span><span class="hl-0">);</span>
+</code></pre>
+<p><strong>Immutable pipes</strong></p>
+<p>Calling <code>.thru</code> returns a <em>new</em> function, so if you have a reference to a pipe, calling <code>.thru</code> on it won&#39;t mutate the original function.</p>
+<pre><code class="language-typescript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-3">pipe</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-4">&quot;pipeout&quot;</span><span class="hl-0">;</span><br/><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">getSmallReds</span><span class="hl-0"> = </span><span class="hl-3">pipe</span><span class="hl-0">.</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">onlyRed</span><span class="hl-0">).</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">onlySmall</span><span class="hl-0">);</span><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">smallRedCounter</span><span class="hl-0"> = </span><span class="hl-3">getSmallReds</span><span class="hl-0">.</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">getLength</span><span class="hl-0">);</span><br/><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">smallReds</span><span class="hl-0"> = </span><span class="hl-7">getSmallReds</span><span class="hl-0">(</span><span class="hl-3">marbles</span><span class="hl-0">);</span><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">smallRedCount</span><span class="hl-0"> = </span><span class="hl-7">smallRedCounter</span><span class="hl-0">(</span><span class="hl-3">marbles</span><span class="hl-0">);</span>
+</code></pre>
 
-<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> redCounter(user);</code></pre>
-				<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
-					<h4>Error Handling</h4>
-				</a>
-				<p>Because <code>pipeA</code> chains together promises, you can handle promise errors as normal.</p>
-				<p>You can <code>.catch</code> errors:</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> redCounter = pipeA
-  .thru(fetchMarbles)
-  .thru(filterForFavoriteColor)
-  .thru(getLength);
+<a href="#asynchronous" id="asynchronous" style="color: inherit; text-decoration: none;">
+  <h3>Asynchronous</h3>
+</a>
+<p>There are also asynchronous variants, <code>pipeA</code> and <code>pipeA.thru</code>.
+These will always result in a promise, and will work whether your values and functions are synchronous or asynchronous.</p>
+<p>All transformer functions should take a value, and can return a value OR a promise.</p>
+<p>The starting value can be a promise or a value.</p>
+<p>For this example, we&#39;ll imagine that getting the user&#39;s marbles and getting the user&#39;s favorite color are asynchronous API operations.</p>
 
-<span class="hljs-keyword">const</span> redCount = <span class="hljs-keyword">await</span> redCounter(<span class="hljs-built_in">Promise</span>.resolve(user));</code></pre>
-				<p>Or handle them with async/await and try/catch:</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> redCounter = pipeA
-  .thru(fetchMarblesWillFail)
-  .thru(filterForFavoriteColor)
-  .thru(getLength);
+<a href="#pipea" id="pipea" style="color: inherit; text-decoration: none;">
+  <h4><code>pipeA</code></h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-3">pipeA</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-4">&quot;pipeout&quot;</span><span class="hl-0">;</span><br/><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCount</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-7">pipeA</span><span class="hl-0">(</span><span class="hl-3">user</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">fetchMarbles</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">filterForFavoriteColor</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">getLength</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">value</span><span class="hl-0">();</span>
+</code></pre>
 
-<span class="hljs-keyword">try</span> {
-  <span class="hljs-keyword">await</span> redCounter(<span class="hljs-built_in">Promise</span>.resolve(user));
-} <span class="hljs-keyword">catch</span> (error) {
-  expect(error).toBe(<span class="hljs-string">"you've lost your marbles!"</span>);
-}</code></pre>
-				<p>To handle errors in a more type-safe way, check out <a href="https://github.com/will-wow/result-async">result-async</a>. It&#39;s designed to work with asynchronous <code>pipe</code> functions like Pipeout&#39;s, and is built around promises that always resolve to a <code>Result</code> type.</p>
-				<a href="#why-another-pipe-function" id="why-another-pipe-function" style="color: inherit; text-decoration: none;">
-					<h2>Why another pipe function?</h2>
-				</a>
-				<p>In JavaScript, the traditional <code>pipe</code> function in a variadic function that takes any number of unary transformer functions, and returns a function that pipes a value through each transformer.</p>
-				<p>It usually looks a little like this:</p>
-				<pre><code class="language-javascript">pipe(
-  a,
-  b,
-  c
-)(value);</code></pre>
-				<p>That works pretty well! But creating TypeScript typings for it is a pain, as you have to declare a separate overload for every possible arity, like these <a href="https://github.com/Saul-Mirone/DefinitelyTyped/blob/e99d2d4e482b4a1f10523b7f6201dd413b33bcad/types/ramda/index.d.ts#L2183">Ramda types</a>:</p>
-				<pre><code class="language-typescript">pipe&lt;T1&gt;<span class="hljs-function">(<span class="hljs-params">fn0: (<span class="hljs-params"></span>) =&gt; T1</span>): <span class="hljs-params">()</span> =&gt;</span> T1;
-pipe&lt;V0, T1&gt;<span class="hljs-function">(<span class="hljs-params">fn0: (<span class="hljs-params">x0: V0</span>) =&gt; T1</span>): (<span class="hljs-params">x0: V0</span>) =&gt;</span> T1;
-pipe&lt;V0, V1, T1&gt;<span class="hljs-function">(<span class="hljs-params">fn0: (<span class="hljs-params">x0: V0, x1: V1</span>) =&gt; T1</span>): (<span class="hljs-params">x0: V0, x1: V1</span>) =&gt;</span> T1;
-pipe&lt;V0, V1, V2, T1&gt;<span class="hljs-function">(<span class="hljs-params">fn0: (<span class="hljs-params">x0: V0, x1: V1, x2: V2</span>) =&gt; T1</span>): (<span class="hljs-params">x0: V0, x1: V1, x2: V2</span>) =&gt;</span> T1;
-...</code></pre>
-				<p>What a pain to maintain! Pipeout takes a different approach. <code>pipe</code> is mostly useful for curried functions - so why not curry <code>pipe</code> itself? <code>pipeout.pipe.thru</code> is essentially a recursive curried function. It takes a single function, and returns a version of <code>pipe</code> that already has the first function in memory. So you can keep calling <code>.thru</code>, passing in more transformers. When you&#39;re done setting up functions, you call <code>.run</code> with an argument, and it passing your value through all the functions.</p>
-				<p>That means we can write the same thing like this:</p>
-				<pre><code class="language-javascript">pipe
-  .thru(a)
-  .thru(b)
-  .thru(c)(value);</code></pre>
-				<p>It&#39;s type-safe, no matter how many functions you add in. And the type is nice and simple, instead of the long overloaded type from Ramda. Every call to <code>pipe.thru</code> just returns this same recursive type:</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> Piper&lt;T, U&gt; {
-  (value: T): U;
-  thru: &lt;V&gt;<span class="hljs-function">(<span class="hljs-params">transformer: Unary&lt;U, V&gt;</span>) =&gt;</span> Piper&lt;T, V&gt;;
-}</code></pre>
-				<p>It describes how you can call the function to transform <code>T</code> to <code>U</code>, or call <code>.thru</code> to get a <code>T</code> to <code>V</code> pipeline instead. All the intermediate transformations aren&#39;t relevant, so they don&#39;t have to show up in the type. Simple!</p>
-				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
-					<h2>Contributing</h2>
-				</a>
-				<pre><code class="language-bash">yarn install
-yarn <span class="hljs-built_in">test</span>
-yarn lint
-yarn format
-yarn build</code></pre>
-				<a href="#thanks" id="thanks" style="color: inherit; text-decoration: none;">
-					<h2>Thanks</h2>
-				</a>
-				<p>Thanks to <a href="https://ramdajs.com">Ramda</a> for their <code>pipe</code> function, and mostly thanks to <a href="sidkey">@sidke</a> for coming up with the original idea for Pipeout, and working through the types with me.</p>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
-					</li>
-					<li class=" tsd-kind-module tsd-has-type-parameter">
-						<a href="modules/pipe.html">pipe</a>
-					</li>
-					<li class=" tsd-kind-module tsd-has-type-parameter">
-						<a href="modules/pipea.html">pipeA</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/pipe.html" class="tsd-kind-icon">Pipe</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/pipea.html" class="tsd-kind-icon">PipeA</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/piper.html" class="tsd-kind-icon">Piper</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/pipera.html" class="tsd-kind-icon">PiperA</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#asyncunary" class="tsd-kind-icon">Async<wbr>Unary</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#possiblepromise" class="tsd-kind-icon">Possible<wbr>Promise</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#unary" class="tsd-kind-icon">Unary</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
-</body>
-</html>
+<a href="#pipeathru" id="pipeathru" style="color: inherit; text-decoration: none;">
+  <h4><code>pipeA.thru</code></h4>
+</a>
+<pre><code class="language-typescript"><span class="hl-2">import</span><span class="hl-0"> { </span><span class="hl-3">pipeA</span><span class="hl-0"> } </span><span class="hl-2">from</span><span class="hl-0"> </span><span class="hl-4">&quot;pipeout&quot;</span><span class="hl-0">;</span><br/><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCounter</span><span class="hl-0"> = </span><span class="hl-3">pipeA</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">fetchMarbles</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">filterForFavoriteColor</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">getLength</span><span class="hl-0">);</span><br/><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCount</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-7">redCounter</span><span class="hl-0">(</span><span class="hl-3">user</span><span class="hl-0">);</span>
+</code></pre>
+
+<a href="#error-handling" id="error-handling" style="color: inherit; text-decoration: none;">
+  <h4>Error Handling</h4>
+</a>
+<p>Because <code>pipeA</code> chains together promises, you can handle promise errors as normal.</p>
+<p>You can <code>.catch</code> errors:</p>
+<pre><code class="language-javascript"><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCounter</span><span class="hl-0"> = </span><span class="hl-3">pipeA</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">fetchMarbles</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">filterForFavoriteColor</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">getLength</span><span class="hl-0">);</span><br/><br/><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCount</span><span class="hl-0"> = </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-7">redCounter</span><span class="hl-0">(</span><span class="hl-8">Promise</span><span class="hl-0">.</span><span class="hl-7">resolve</span><span class="hl-0">(</span><span class="hl-3">user</span><span class="hl-0">));</span>
+</code></pre>
+<p>Or handle them with async/await and try/catch:</p>
+<pre><code class="language-javascript"><span class="hl-5">const</span><span class="hl-0"> </span><span class="hl-6">redCounter</span><span class="hl-0"> = </span><span class="hl-3">pipeA</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">fetchMarblesWillFail</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">filterForFavoriteColor</span><span class="hl-0">)</span><br/><span class="hl-0">  .</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">getLength</span><span class="hl-0">);</span><br/><br/><span class="hl-2">try</span><span class="hl-0"> {</span><br/><span class="hl-0">  </span><span class="hl-2">await</span><span class="hl-0"> </span><span class="hl-7">redCounter</span><span class="hl-0">(</span><span class="hl-8">Promise</span><span class="hl-0">.</span><span class="hl-7">resolve</span><span class="hl-0">(</span><span class="hl-3">user</span><span class="hl-0">));</span><br/><span class="hl-0">} </span><span class="hl-2">catch</span><span class="hl-0"> (</span><span class="hl-3">error</span><span class="hl-0">) {</span><br/><span class="hl-0">  </span><span class="hl-7">expect</span><span class="hl-0">(</span><span class="hl-3">error</span><span class="hl-0">).</span><span class="hl-7">toBe</span><span class="hl-0">(</span><span class="hl-4">&quot;you&#39;ve lost your marbles!&quot;</span><span class="hl-0">);</span><br/><span class="hl-0">}</span>
+</code></pre>
+<p>To handle errors in a more type-safe way, check out <a href="https://github.com/will-wow/result-async">result-async</a>. It&#39;s designed to work with asynchronous <code>pipe</code> functions like Pipeout&#39;s, and is built around promises that always resolve to a <code>Result</code> type.</p>
+
+<a href="#why-another-pipe-function" id="why-another-pipe-function" style="color: inherit; text-decoration: none;">
+  <h2>Why another pipe function?</h2>
+</a>
+<p>In JavaScript, the traditional <code>pipe</code> function in a variadic function that takes any number of unary transformer functions, and returns a function that pipes a value through each transformer.</p>
+<p>It usually looks a little like this:</p>
+<pre><code class="language-javascript"><span class="hl-7">pipe</span><span class="hl-0">(</span><span class="hl-3">a</span><span class="hl-0">, </span><span class="hl-3">b</span><span class="hl-0">, </span><span class="hl-3">c</span><span class="hl-0">)(</span><span class="hl-3">value</span><span class="hl-0">);</span>
+</code></pre>
+<p>That works pretty well! But creating TypeScript typings for it is a pain, as you have to declare a separate overload for every possible arity, like these <a href="https://github.com/Saul-Mirone/DefinitelyTyped/blob/e99d2d4e482b4a1f10523b7f6201dd413b33bcad/types/ramda/index.d.ts#L2183">Ramda types</a>:</p>
+<pre><code class="language-typescript"><span class="hl-7">pipe</span><span class="hl-0">&lt;</span><span class="hl-8">T1</span><span class="hl-0">&gt;(</span><span class="hl-3">fn0</span><span class="hl-0">: () </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-6">T1</span><span class="hl-0">): () </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-6">T1</span><span class="hl-0">;</span><br/><span class="hl-7">pipe</span><span class="hl-0">&lt;</span><span class="hl-8">V0</span><span class="hl-0">, </span><span class="hl-8">T1</span><span class="hl-0">&gt;(</span><span class="hl-3">fn0</span><span class="hl-0">: (</span><span class="hl-3">x0</span><span class="hl-0">: </span><span class="hl-8">V0</span><span class="hl-0">) </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-6">T1</span><span class="hl-0">): (</span><span class="hl-3">x0</span><span class="hl-0">: </span><span class="hl-8">V0</span><span class="hl-0">) </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-6">T1</span><span class="hl-0">;</span><br/><span class="hl-7">pipe</span><span class="hl-0">&lt;</span><span class="hl-8">V0</span><span class="hl-0">, </span><span class="hl-8">V1</span><span class="hl-0">, </span><span class="hl-8">T1</span><span class="hl-0">&gt;(</span><span class="hl-3">fn0</span><span class="hl-0">: (</span><span class="hl-3">x0</span><span class="hl-0">: </span><span class="hl-8">V0</span><span class="hl-0">, </span><span class="hl-3">x1</span><span class="hl-0">: </span><span class="hl-8">V1</span><span class="hl-0">) </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-6">T1</span><span class="hl-0">): (</span><span class="hl-3">x0</span><span class="hl-0">: </span><span class="hl-8">V0</span><span class="hl-0">, </span><span class="hl-3">x1</span><span class="hl-0">: </span><span class="hl-8">V1</span><span class="hl-0">) </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-6">T1</span><span class="hl-0">;</span><br/><span class="hl-7">pipe</span><span class="hl-0">&lt;</span><span class="hl-8">V0</span><span class="hl-0">, </span><span class="hl-8">V1</span><span class="hl-0">, </span><span class="hl-8">V2</span><span class="hl-0">, </span><span class="hl-8">T1</span><span class="hl-0">&gt;(</span><span class="hl-3">fn0</span><span class="hl-0">: (</span><span class="hl-3">x0</span><span class="hl-0">: </span><span class="hl-8">V0</span><span class="hl-0">, </span><span class="hl-3">x1</span><span class="hl-0">: </span><span class="hl-8">V1</span><span class="hl-0">, </span><span class="hl-3">x2</span><span class="hl-0">: </span><span class="hl-8">V2</span><span class="hl-0">) </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-6">T1</span><span class="hl-0">): (</span><span class="hl-3">x0</span><span class="hl-0">: </span><span class="hl-8">V0</span><span class="hl-0">, </span><span class="hl-3">x1</span><span class="hl-0">: </span><span class="hl-8">V1</span><span class="hl-0">, </span><span class="hl-3">x2</span><span class="hl-0">: </span><span class="hl-8">V2</span><span class="hl-0">) </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-6">T1</span><span class="hl-0">;</span><br/><span class="hl-0">...</span>
+</code></pre>
+<p>What a pain to maintain! Pipeout takes a different approach. <code>pipe</code> is mostly useful for curried functions - so why not curry <code>pipe</code> itself? <code>pipeout.pipe.thru</code> is essentially a recursive curried function. It takes a single function, and returns a version of <code>pipe</code> that already has the first function in memory. So you can keep calling <code>.thru</code>, passing in more transformers. When you&#39;re done setting up functions, you call <code>.run</code> with an argument, and it passing your value through all the functions.</p>
+<p>That means we can write the same thing like this:</p>
+<pre><code class="language-javascript"><span class="hl-3">pipe</span><span class="hl-0">.</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">a</span><span class="hl-0">).</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">b</span><span class="hl-0">).</span><span class="hl-7">thru</span><span class="hl-0">(</span><span class="hl-3">c</span><span class="hl-0">)(</span><span class="hl-3">value</span><span class="hl-0">);</span>
+</code></pre>
+<p>It&#39;s type-safe, no matter how many functions you add in. And the type is nice and simple, instead of the long overloaded type from Ramda. Every call to <code>pipe.thru</code> just returns this same recursive type:</p>
+<pre><code class="language-typescript"><span class="hl-2">export</span><span class="hl-0"> </span><span class="hl-5">interface</span><span class="hl-0"> </span><span class="hl-8">Piper</span><span class="hl-0">&lt;</span><span class="hl-8">T</span><span class="hl-0">, </span><span class="hl-8">U</span><span class="hl-0">&gt; {</span><br/><span class="hl-0">  (</span><span class="hl-3">value</span><span class="hl-0">: </span><span class="hl-8">T</span><span class="hl-0">): </span><span class="hl-8">U</span><span class="hl-0">;</span><br/><span class="hl-0">  </span><span class="hl-7">thru</span><span class="hl-0">: &lt;</span><span class="hl-8">V</span><span class="hl-0">&gt;(</span><span class="hl-3">transformer</span><span class="hl-0">: </span><span class="hl-8">Unary</span><span class="hl-0">&lt;</span><span class="hl-8">U</span><span class="hl-0">, </span><span class="hl-8">V</span><span class="hl-0">&gt;) </span><span class="hl-5">=&gt;</span><span class="hl-0"> </span><span class="hl-8">Piper</span><span class="hl-0">&lt;</span><span class="hl-8">T</span><span class="hl-0">, </span><span class="hl-8">V</span><span class="hl-0">&gt;;</span><br/><span class="hl-0">}</span>
+</code></pre>
+<p>It describes how you can call the function to transform <code>T</code> to <code>U</code>, or call <code>.thru</code> to get a <code>T</code> to <code>V</code> pipeline instead. All the intermediate transformations aren&#39;t relevant, so they don&#39;t have to show up in the type. Simple!</p>
+
+<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+  <h2>Contributing</h2>
+</a>
+<pre><code class="language-bash"><span class="hl-0">yarn install</span><br/><span class="hl-0">yarn </span><span class="hl-7">test</span><br/><span class="hl-0">yarn lint</span><br/><span class="hl-0">yarn format</span><br/><span class="hl-0">yarn build</span>
+</code></pre>
+
+<a href="#thanks" id="thanks" style="color: inherit; text-decoration: none;">
+  <h2>Thanks</h2>
+</a>
+<p>Thanks to <a href="https://ramdajs.com">Ramda</a> for their <code>pipe</code> function, and mostly thanks to <a href="sidkey">@sidke</a> for coming up with the original idea for Pipeout, and working through the types with me.</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li><li class=" tsd-kind-namespace"><a href="modules/pipe.html">pipe</a></li><li class=" tsd-kind-namespace"><a href="modules/pipeA.html">pipeA</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-reference"><a href="modules.html#pip" class="tsd-kind-icon">pip</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/Pipe.html" class="tsd-kind-icon">Pipe</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/PipeA.html" class="tsd-kind-icon">PipeA</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/Piper.html" class="tsd-kind-icon">Piper</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/PiperA.html" class="tsd-kind-icon">PiperA</a></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#AsyncUnary" class="tsd-kind-icon">Async<wbr/>Unary</a></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#PossiblePromise" class="tsd-kind-icon">Possible<wbr/>Promise</a></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#Unary" class="tsd-kind-icon">Unary</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#pipe" class="tsd-kind-icon">pipe</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#pipeA" class="tsd-kind-icon">pipeA</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>

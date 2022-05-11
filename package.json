@@ -1,6 +1,6 @@
 {
   "name": "pipeout",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Error handling",
   "main": "dist/pipeout.cjs.js",
   "module": "dist/pipeout.js",
@@ -9,7 +9,7 @@
     "dist/**/*",
     "src/**/*"
   ],
-  "author": "Will Ockelmann-Wagner <wow@carbonfive.com> (https://github.com/will-wow)",
+  "author": "Will Ockelmann-Wagner <will@wiillwow.dev> (https://github.com/will-wow)",
   "contributors": [
     "Sidney Keese (https://github.com/sidke)"
   ],
@@ -31,28 +31,28 @@
     "javascript"
   ],
   "devDependencies": {
-    "@types/jest": "^24.0.18",
+    "@types/jest": "^27.5.0",
     "@types/lodash": "^4.14.144",
-    "@typescript-eslint/eslint-plugin": "^2.3.3",
-    "@typescript-eslint/parser": "^2.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
     "babel-cli": "^6.26.0",
     "codecov": "^3.6.1",
-    "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.4.0",
-    "jest": "^24.9.0",
+    "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
+    "jest": "^27.5.1",
     "lodash": "^4.17.15",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.18.2",
-    "rollup": "^1.23.1",
-    "rollup-plugin-typescript2": "^0.24.3",
-    "ts-jest": "^24.1.0",
-    "ts-node": "^8.4.1",
-    "typedoc": "^0.15.0",
-    "typescript": "^3.6.4"
+    "prettier": "^2.6.2",
+    "rollup": "^2.72.1",
+    "rollup-plugin-typescript2": "^0.31.2",
+    "ts-jest": "^27.1.4",
+    "ts-node": "^10.7.0",
+    "typedoc": "^0.22.15",
+    "typescript": "^4.6.4"
   },
   "scripts": {
     "build": "rollup -c",
-    "docs": "typedoc && cp -R assets/* docs/assets/ && cp assets/favicon.ico docs",
+    "docs": "typedoc src/index.ts && cp -R assets/* docs/assets/ && cp assets/favicon.ico docs",
     "prepublishOnly": "npm-run-all lint test build",
     "test": "jest",
     "format": "npm-run-all -c format:*",

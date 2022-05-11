@@ -39,7 +39,7 @@ export interface PiperA<T, U> {
 
 function piper<T, U>(transformer: Unary<T, U>): Piper<T, U> {
   function nextPipe<V>(nextTransformer: Unary<U, V>): Piper<T, V> {
-    return piper<T, V>(function(value: T) {
+    return piper<T, V>(function (value: T) {
       return nextTransformer(transformer(value));
     });
   }
@@ -84,7 +84,7 @@ export function pipe<T>(value: T): Pipe<T> {
 
   return {
     value: () => value,
-    thru: nextPipe
+    thru: nextPipe,
   };
 }
 
@@ -112,7 +112,7 @@ export function pipeA<T>(value: PossiblePromise<T>): PipeA<T> {
 
   return {
     value: () => Promise.resolve(value),
-    thru: nextPipe
+    thru: nextPipe,
   };
 }
 

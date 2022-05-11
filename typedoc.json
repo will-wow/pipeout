@@ -1,7 +1,5 @@
 {
-  "mode": "file",
   "out": "docs",
-  "excludeNotExported": true,
   "excludeExternals": true,
   "exclude": "**/*.test.ts"
 }

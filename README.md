@@ -39,10 +39,7 @@ Here's an example trying to find how many red marbles are in a list.
 ```typescript
 import { pipe } from "pipeout";
 
-const redCount = pipe(marbles)
-  .thru(filterReds)
-  .thru(getLength)
-  .value();
+const redCount = pipe(marbles).thru(filterReds).thru(getLength).value();
 ```
 
 **Note**
@@ -157,11 +154,7 @@ In JavaScript, the traditional `pipe` function in a variadic function that takes
 It usually looks a little like this:
 
 ```javascript
-pipe(
-  a,
-  b,
-  c
-)(value);
+pipe(a, b, c)(value);
 ```
 
 That works pretty well! But creating TypeScript typings for it is a pain, as you have to declare a separate overload for every possible arity, like these [Ramda types](https://github.com/Saul-Mirone/DefinitelyTyped/blob/e99d2d4e482b4a1f10523b7f6201dd413b33bcad/types/ramda/index.d.ts#L2183):
@@ -179,10 +172,7 @@ What a pain to maintain! Pipeout takes a different approach. `pipe` is mostly us
 That means we can write the same thing like this:
 
 ```javascript
-pipe
-  .thru(a)
-  .thru(b)
-  .thru(c)(value);
+pipe.thru(a).thru(b).thru(c)(value);
 ```
 
 It's type-safe, no matter how many functions you add in. And the type is nice and simple, instead of the long overloaded type from Ramda. Every call to `pipe.thru` just returns this same recursive type:
